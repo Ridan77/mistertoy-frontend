@@ -18,7 +18,7 @@
     max-width: 600px;
     height: fit-content;
     padding: 33px;
-    /* background-color: black; */
+    background-color: black;
     color: white;
     display: flex;
     flex-direction: column;

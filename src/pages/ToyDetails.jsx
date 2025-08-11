@@ -7,8 +7,12 @@ import { Modal } from "../cmps/Modal.jsx";
 
 export function ToyDetails() {
   const [toy, setToy] = useState(null);
-  const [isOpen, setIsOpen] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [chatLines, setChatLines] = useState([
+    "hello",
+    "hi",
+    "what your name?",
+  ]);
   const { toyId } = useParams();
 
   useEffect(() => {
@@ -18,10 +22,7 @@ export function ToyDetails() {
   function onToggleModal() {
     setIsOpen((isOpen) => !isOpen);
   }
-  function onValidate() {
-    showSuccessMsg("Validate!!!!! 🥳");
-    onToggleModal();
-  }
+
   function loadToy() {
     toyService
       .getById(toyId)
@@ -31,6 +32,13 @@ export function ToyDetails() {
         navigate("/toy");
       });
   }
+
+    function handleSubmit(ev) {
+      ev.preventDefault();
+      console.log(ev.target);
+    }
+  console.log(isOpen);
+
   if (!toy) return <div>Loading...</div>;
   return (
     <section className="toy-details">
@@ -39,21 +47,15 @@ export function ToyDetails() {
       <img src={`../${toy.imgUrl}`} alt="" />
       <button onClick={onToggleModal}>Chat</button>
       <Modal isOpen={isOpen} onClose={onToggleModal}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-          voluptas cumque tempore, aperiam sed dolorum rem! Nemo quidem, placeat
-          perferendis tempora aspernatur sit, explicabo veritatis corrupti
-          perspiciatis repellat, enim quibusdam!
-        </p>
+        {chatLines}
+     
       </Modal>
+
       <button>
         <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
       </button>
       <button>
         <Link to={`/toy`}>Back</Link>
-      </button>
-      <button>
-        <Link to="/toy/nJ5L4">Next Toy</Link>
       </button>
     </section>
   );
