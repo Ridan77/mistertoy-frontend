@@ -20,4 +20,10 @@ footer {
   text-align: center;
 }
 
+header {
+  background-color: var(--clr1);
+  color: var(--clr1bg);
+  padding: 1em;
+  text-align: center;
+}
 

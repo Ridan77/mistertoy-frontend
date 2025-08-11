@@ -16,6 +16,7 @@ export function HomePage() {
                 Welcome!
             </h2 >
             <img src={imgUrl} />
+            
             {/* <img src="../assets/img/logo.png" /> */}
             {/* <img src="./img/vite.svg" /> */}
         </section >
