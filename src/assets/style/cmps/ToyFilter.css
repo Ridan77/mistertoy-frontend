@@ -1,0 +1,15 @@
+.toy-filter {
+    background-color: var(--clr2bg);
+    padding: 1em;
+}
+
+.toy-filter form{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.toy-filter form >*{
+height: 30px;
+}
+
