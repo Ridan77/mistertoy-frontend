@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Fragment } from "react";
 
-export function Modal({ children, isOpen, onClose }) {
+export function Modal({ children, isOpen, onClose, onSubmit }) {
   if (!isOpen) return null;
   const [lineToEdit, setLineToEdit] = useState("");
 
   function handleChange({ target }) {
     const value = target.value;
-    setLineToEdit((prevLine) => prevLine + value);
+    setLineToEdit(value);
   }
+  console.log(lineToEdit);
 
   return (
     <Fragment>
@@ -19,6 +20,21 @@ export function Modal({ children, isOpen, onClose }) {
           {children.map((line, idx) => (
             <div key={idx}>{line}</div>
           ))}
+          <form
+            onSubmit={(ev) => {
+              onSubmit(ev);
+              setLineToEdit("");
+            }}>
+            <input
+              autoFocus
+              className="line-input"
+              type="text"
+              id="txt"
+              value={lineToEdit}
+              placeholder="Your answer... "
+              onChange={handleChange}
+            />
+          </form>
         </main>
         <footer>Footer</footer>
         <button className="close-btn" onClick={onClose}>

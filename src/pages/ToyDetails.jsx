@@ -35,9 +35,15 @@ export function ToyDetails() {
 
     function handleSubmit(ev) {
       ev.preventDefault();
-      console.log(ev.target);
+      console.log(ev.target.txt.value);
+      setChatLines(prevLines=>[...prevLines,ev.target.txt.value])
+      ev.target.txt.value=''
+      setTimeout(() => {
+              setChatLines(prevLines=>[...prevLines,'Sure thing honey'])
+
+      }, 5000);
     }
-  console.log(isOpen);
+  console.log(chatLines);
 
   if (!toy) return <div>Loading...</div>;
   return (
@@ -46,7 +52,7 @@ export function ToyDetails() {
       <h5>Price: ${toy.price}</h5>
       <img src={`../${toy.imgUrl}`} alt="" />
       <button onClick={onToggleModal}>Chat</button>
-      <Modal isOpen={isOpen} onClose={onToggleModal}>
+      <Modal isOpen={isOpen} onClose={onToggleModal} onSubmit={handleSubmit} >
         {chatLines}
      
       </Modal>
