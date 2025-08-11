@@ -10,8 +10,8 @@ export function ToyDetails() {
   const [isOpen, setIsOpen] = useState(false);
   const [chatLines, setChatLines] = useState([
     "hello",
-    "hi",
-    "what your name?",
+    "Nice to chat with you",
+    "How can I help?",
   ]);
   const { toyId } = useParams();
 

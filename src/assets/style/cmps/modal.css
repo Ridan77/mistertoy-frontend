@@ -48,3 +48,6 @@
 
     background-color: transparent  ;
 }
+.line{
+    border-bottom: 1px var(--gray3)solid;
+}

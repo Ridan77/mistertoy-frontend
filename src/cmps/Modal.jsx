@@ -18,7 +18,7 @@ export function Modal({ children, isOpen, onClose, onSubmit }) {
         <header>Chat</header>
         <main>
           {children.map((line, idx) => (
-            <div key={idx}>{line}</div>
+            <div className="line" key={idx}>{line}</div>
           ))}
           <form
             onSubmit={(ev) => {
