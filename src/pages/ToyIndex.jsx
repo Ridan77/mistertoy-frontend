@@ -74,7 +74,7 @@ export function ToysIndex() {
     dispatch({ type: ADD_TOY_TO_CART, toy });
     showSuccessMsg("Added to Cart");
   }
-  console.log(filterBy, toys);
+console.log(filterBy);
 
   return (
     <div>

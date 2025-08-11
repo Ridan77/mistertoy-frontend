@@ -28,13 +28,24 @@ function query(filterBy = {}) {
                 toys = toys.filter((toy) => {
 
                     const sts = toy.inStock ? 'inStock' : 'notInStock'
-                    console.log(toy.inStock, sts)
                     return (filterBy.status === sts)
                 })
             }
+
+            console.log(filterBy.labels.length);
+            if (filterBy.labels.length > 0) {
+                
+                console.log(filterBy.labels);
+                console.log();
+                
+                toys = toys.filter(toy => toy.labels.some(label => filterBy.labels.includes(label)))
+            }
+
             if (filterBy.sort) {
-                if (filterBy.sort === 'txt') {
-                    toys = toys.sort((a, b) => a.txt.localeCompare(b.txt));
+                if (filterBy.sort === 'name') {
+
+                    console.log('inside')
+                    toys = toys.sort((a, b) => a.name.localeCompare(b.name));
                 } else if (filterBy.sort === 'createdAt') {
                     toys = toys.sort((a, b) => a.createdAt - b.createdAt);
                 } else if (filterBy.sort === 'price') {
@@ -82,11 +93,9 @@ function getRandomToy() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', status: 'all' }
+    return { txt: '', status: 'all', labels: [] }
 }
 
-// TEST DATA
-// storageService.post(STORAGE_KEY, {vendor: 'Subali Rahok 6', price: 980}).then(x => console.log(x))
 
 function _createToys() {
     return storageService.query(STORAGE_KEY).then(toys => {
@@ -108,14 +117,13 @@ function _createToy(url) {
 
     const toy = {
         _id: utilService.makeId(),
-        name: `Talking Doll ${utilService.getRandomIntInclusive(1, 20)} `,
+        name: utilService.makeLorem(2),
         imgUrl: url,
         price: utilService.getRandomIntInclusive(50, 300),
         labels: getLabels(),
         createdAt: Date.now(),
         inStock: utilService.getRandomIntInclusive(1, 10) > 5 ? true : false
     }
-    console.log(toy);
 
     return toy
 
@@ -127,10 +135,10 @@ function getLabels() {
     const nums = getRandomThree()
     const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
         'Outdoor', 'Battery Powered']
-    var lbls=[]
-    lbls.unshift(labels[nums[0]])    
-    lbls.unshift(labels[nums[1]])    
-    lbls.unshift(labels[nums[2]])    
+    var lbls = []
+    lbls.unshift(labels[nums[0]])
+    lbls.unshift(labels[nums[1]])
+    lbls.unshift(labels[nums[2]])
     return lbls
 }
 

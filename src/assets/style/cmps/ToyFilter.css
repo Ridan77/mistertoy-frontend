@@ -13,3 +13,11 @@
 height: 30px;
 }
 
+.label-selector{
+
+}
+
+.label-selector:focus , .label-selector:hover {
+height: 120px;
+}
+

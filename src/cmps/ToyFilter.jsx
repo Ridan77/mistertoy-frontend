@@ -15,8 +15,12 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
   function handleChange({ target }) {
     const field = target.name;
-    let value = target.value;
-
+    let value;
+    if (target.multiple) {
+      value = Array.from(target.selectedOptions, (opt) => opt.value);
+    } else {
+      value = target.value;
+    }
     switch (target.type) {
       case "number":
       case "range":
@@ -33,7 +37,6 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
     setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }));
   }
-  console.log(filterByToEdit);
 
   return (
     <section className="toy-filter full main-layout">
@@ -57,19 +60,35 @@ export function ToyFilter({ filterBy, onSetFilter }) {
           <option value="inStock">In Stock</option>
           <option value="notInStock">Not in Stock</option>
         </select>
-        
-        <label htmlFor="sort">Sort:</label>
 
-          <select
-            value={filterByToEdit.sort}
-            name="sort"
-            onChange={handleChange}
-            id="sort">
-            <option value="">Sort By</option>
-            <option value="name">Name</option>
-            <option value="price">Price</option>
-            <option value="createdAt">Date Created</option>
-          </select>
+        <select
+          value={filterByToEdit.labels}
+          id="labels"
+          name="labels"
+          className="label-selector"
+          multiple
+          onChange={handleChange}>
+          <option value="On wheels">On Wheels</option>
+          <option value="Box Game">Box Game</option>
+          <option value="Art">Art</option>
+          <option value="Baby">Baby</option>
+          <option value="Doll">Doll</option>
+          <option value="Puzzle">Puzzle</option>
+          <option value="Outdoor">Outdoor</option>
+          <option value="Battery Powered">Battery Powered</option>
+        </select>
+
+        <label htmlFor="sort">Sort:</label>
+        <select
+          value={filterByToEdit.sort}
+          name="sort"
+          onChange={handleChange}
+          id="sort">
+          <option value="">Sort By</option>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="createdAt">Date Created</option>
+        </select>
       </form>
     </section>
   );
