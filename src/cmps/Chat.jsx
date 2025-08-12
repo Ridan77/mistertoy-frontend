@@ -15,7 +15,6 @@ export function Chat() {
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    console.log(ev.target.txt.value);
     setChatLines((prevLines) => [
       ...prevLines,
       { text: ev.target.txt.value, sender: "user" },
@@ -27,7 +26,6 @@ export function Chat() {
       ]);
     }, 5000);
   }
-  console.log(chatLines, lineToEdit);
 
   return (
     <div className="chat-container">
@@ -44,6 +42,7 @@ export function Chat() {
         <div className="input-send">
           <input
             autoFocus
+            autoComplete="off"
             className="line-input"
             type="text"
             id="txt"

@@ -32,7 +32,6 @@ function query(filterBy = {}) {
                 })
             }
 
-            console.log(filterBy.labels.length);
             if (filterBy.labels.length > 0) {
                 
                 console.log(filterBy.labels);

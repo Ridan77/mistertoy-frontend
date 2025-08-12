@@ -13,11 +13,19 @@ export function ToyDetails() {
   const { toyId } = useParams();
 
   useEffect(() => {
+    window.addEventListener("keyup", handleIsOpen);
     if (toyId) loadToy();
+    return () => {
+      window.removeEventListener("keyup", handleIsOpen);
+    };
   }, [toyId]);
 
   function onToggleModal() {
     setIsOpen((isOpen) => !isOpen);
+  }
+
+  function handleIsOpen({ key }) {
+    if (key === "Escape") setIsOpen(false);
   }
 
   function loadToy() {
@@ -30,23 +38,27 @@ export function ToyDetails() {
       });
   }
 
-
   if (!toy) return <div>Loading...</div>;
   return (
     <section className="toy-details">
       <h2>Toy name : {toy.name}</h2>
       <h5>Price: ${toy.price}</h5>
+      Labels: <pre> {JSON.stringify(toy.labels)}</pre>
+      <p className={toy.inStock ? "in-stock" : "not-instock"}></p>
+      {toy.inStock ? "In Stock" : "Not In Stock"}
       <img src={`../${toy.imgUrl}`} alt="" />
-      <button onClick={onToggleModal}>Chat</button>
       <Modal isOpen={isOpen} onClose={onToggleModal}>
         <Chat />
       </Modal>
-      <button>
-        <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
-      </button>
-      <button>
-        <Link to={`/toy`}>Back</Link>
-      </button>
+      <div className="btn-details">
+        <button onClick={onToggleModal}>Chat</button>
+        <button>
+          <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
+        </button>
+        <button>
+          <Link to={`/toy`}>Back</Link>
+        </button>
+      </div>
     </section>
   );
 }
