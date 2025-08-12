@@ -12,6 +12,7 @@ export const toyService = {
     save,
     remove,
     getDefaultFilter,
+    getEmptyToy
     
 }
 
@@ -34,15 +35,14 @@ function save(toy) {
         return httpService.post(BASE_URL, toy)
     }
 }
-
-
-
-
-
-
-
-
-
+function getEmptyToy(){
+    const toy={
+        name:'',
+        price:'',
+        onStock:true,
+    }
+    return toy
+}
 
 
 function getDefaultFilter() {

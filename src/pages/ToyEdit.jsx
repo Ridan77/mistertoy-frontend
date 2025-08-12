@@ -1,90 +1,103 @@
-import { useEffect, useRef, useState } from "react"
-import { toyService } from "../services/toy.service.js"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { saveToy } from "../store/actions/toy.actions.js"
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { useOnlineStatus } from "../hooks/useOnlineStatus.js"
-import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
-
+import { useEffect, useRef, useState } from "react";
+import { toyService } from "../services/toy.service.js";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
+import { saveToy } from "../store/actions/toy.actions.js";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
+import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js";
 
 export function ToyEdit() {
-    const navigate = useNavigate()
-    const [toyToEdit, setToyToEdit] = useState()
-    const { toyId } = useParams()
+  const navigate = useNavigate();
+  const [toyToEdit, setToyToEdit] = useState();
+  const { toyId } = useParams();
 
-    const isOnline = useOnlineStatus()
-    const setHasUnsavedChanges = useConfirmTabClose()
-    
+  const isOnline = useOnlineStatus();
+  const setHasUnsavedChanges = useConfirmTabClose();
 
-    useEffect(() => {
-        if (toyId) loadToy()
-    }, [])
+  useEffect(() => {
+    if (toyId) loadToy()
+        else setToyToEdit(toyService.getEmptyToy());
+  }, []);
 
-    function loadToy() {
-        toyService.getById(toyId)
-            .then(toy => setToyToEdit(toy))
-            .catch(err => {
-                console.log('Had issues in toy edit', err)
-                navigate('/toy')
-            })
-    }
+  function loadToy() {
+    toyService
+      .getById(toyId)
+      .then((toy) => setToyToEdit(toy))
+      .catch((err) => {
+        console.log("Had issues in toy edit", err);
+        navigate("/toy");
+      });
+  }
 
-    function handleChange({ target }) {
-        let { value, type, name: field } = target
-        value = type === 'number' ? +value : value
-        setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }))
-        setHasUnsavedChanges(true)
-    }
+  function handleChange({ target }) {
+    let { value, type, name: field } = target;
+    value = type === "number" ? +value : value;
+    setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }));
+    setHasUnsavedChanges(true);
+  }
 
-    function onSaveToy(ev) {
-        ev.preventDefault()
-        if (!toyToEdit.price) toyToEdit.price = 1000
-        saveToy(toyToEdit)
-            .then(() => {
-                showSuccessMsg('Toy Saved!')
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.log('Had issues in toy details', err)
-                showErrorMsg('Had issues in toy details')
-            })
-    }
+  function onSaveToy(ev) {
+    ev.preventDefault();
+    if (!toyToEdit.price) toyToEdit.price = 1000;
+    saveToy(toyToEdit)
+      .then(() => {
+        showSuccessMsg("Toy Saved!");
+        navigate("/toy");
+      })
+      .catch((err) => {
+        console.log("Had issues in toy details", err);
+        showErrorMsg("Had issues in toy details");
+      });
+  }
+  if (!toyToEdit) return <div>Wait</div>;
+  return (
+    <>
+      <div></div>
+      <section className="toy-edit">
+        <h2>{toyToEdit._id ? "Edit" : "Add"} Toy</h2>
 
-    return (
-        <>
-            <div></div>
-            <section className="toy-edit">
-                <h2>{toyToEdit._id ? 'Edit' : 'Add'} Toy</h2>
+        <form onSubmit={onSaveToy}>
+          <div className="edit-input-container">
+            <label htmlFor="name">Name : </label>
 
-                <form onSubmit={onSaveToy} >
-                    <label htmlFor="vendor">Vendor : </label>
-                    <input type="text"
-                        name="vendor"
-                        id="vendor"
-                        placeholder="Enter vendor..."
-                        value={toyToEdit.vendor}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="price">Price : </label>
-                    <input type="number"
-                        name="price"
-                        id="price"
-                        placeholder="Enter price"
-                        value={toyToEdit.price}
-                        onChange={handleChange}
-                    />
-
-                    <div>
-                        <button>{toyToEdit._id ? 'Save' : 'Add'}</button>
-                        <Link to="/toy">Cancel</Link>
-                    </div>
-                    <section>
-                        <h1>{isOnline ? '✅ Online' : '❌ Disconnected'}</h1>
-                    </section>
-                </form>
-            </section>
-        </>
-    )
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Enter name..."
+              value={toyToEdit.name}
+              onChange={handleChange}
+            />
+            <label htmlFor="price">Price : </label>
+            <input
+              type="number"
+              name="price"
+              id="price"
+              placeholder="Enter price"
+              value={toyToEdit.price}
+              onChange={handleChange}
+            />
+            <label htmlFor="onStock">On Stock : </label>
+            <input
+              type="checkbox"
+              checked={toyToEdit.onStock}
+              name="onStock"
+              id="onStock"
+              value={toyToEdit.onStock}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="edit-btn-container">
+            <button>{toyToEdit._id ? "Save" : "Add"}</button>
+            <button>
+              <Link to="/toy">Cancel</Link>
+            </button>
+          </div>
+        </form>
+        <section>
+          <h5>{isOnline ? "✅ Online" : "❌ Disconnected"}</h5>
+        </section>
+      </section>
+    </>
+  );
 }
-
-

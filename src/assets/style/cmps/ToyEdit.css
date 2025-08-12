@@ -1,8 +1,10 @@
 .car-edit {
     text-align: center;
 }
-
-.car-edit form {
+.toy-edit h2{
+    text-align: center;
+}
+.edit-input-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,3 +13,9 @@
         margin-bottom: 2em;
     }
 }
+
+.edit-btn-container{
+display: flex;
+justify-content: space-around;
+}
+
