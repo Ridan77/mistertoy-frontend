@@ -9,3 +9,12 @@
     gap: 15px;
     justify-content: space-around;
 }
+
+
+.h1-container{
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+;
+}

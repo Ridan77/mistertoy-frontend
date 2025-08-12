@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import { toyService } from "../services/toy.service-local.js";
 import { Link, useParams } from "react-router-dom";
 import { Modal } from "../cmps/Modal.jsx";
+import { Chat } from "../cmps/Chat.jsx";
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
 
 export function ToyDetails() {
   const [toy, setToy] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [chatLines, setChatLines] = useState([
-    "hello",
-    "Nice to chat with you",
-    "How can I help?",
-  ]);
+
   const { toyId } = useParams();
 
   useEffect(() => {
@@ -33,17 +30,6 @@ export function ToyDetails() {
       });
   }
 
-    function handleSubmit(ev) {
-      ev.preventDefault();
-      console.log(ev.target.txt.value);
-      setChatLines(prevLines=>[...prevLines,ev.target.txt.value])
-      ev.target.txt.value=''
-      setTimeout(() => {
-              setChatLines(prevLines=>[...prevLines,'Sure thing honey'])
-
-      }, 5000);
-    }
-  console.log(chatLines);
 
   if (!toy) return <div>Loading...</div>;
   return (
@@ -52,11 +38,9 @@ export function ToyDetails() {
       <h5>Price: ${toy.price}</h5>
       <img src={`../${toy.imgUrl}`} alt="" />
       <button onClick={onToggleModal}>Chat</button>
-      <Modal isOpen={isOpen} onClose={onToggleModal} onSubmit={handleSubmit} >
-        {chatLines}
-     
+      <Modal isOpen={isOpen} onClose={onToggleModal}>
+        <Chat />
       </Modal>
-
       <button>
         <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
       </button>

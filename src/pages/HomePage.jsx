@@ -1,4 +1,4 @@
-import imgUrl from '../assets/img/logo.png';
+import imgUrl from '../assets/img/logo1.png';
 
 import { useState } from "react"
 // const { useState } = React
@@ -12,9 +12,7 @@ export function HomePage() {
     const homeStyle = { textAlign: 'center' }
     return (
         <section style={homeStyle}>
-            <h2>
-                Welcome!
-            </h2 >
+          
             <img src={imgUrl} />
             
             {/* <img src="../assets/img/logo.png" /> */}
