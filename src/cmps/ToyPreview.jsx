@@ -6,7 +6,7 @@ export function ToyPreview({ toy }) {
       <h4>{toy.name}</h4>
       <img src={toy.imgUrl} alt="" />
       <p>
-        Price: <span>${toy.price.toLocaleString()}</span>
+        Price: <span>${toy.price}</span>
       </p>
       Labels: <pre> {JSON.stringify(toy.labels)}</pre>
       <p className={toy.inStock ? "in-stock" : "not-instock"}>

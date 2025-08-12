@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { toyService } from "../services/toy.service-local.js"
+import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { Link, useNavigate, useParams } from "react-router-dom"
@@ -9,7 +9,7 @@ import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 
 export function ToyEdit() {
     const navigate = useNavigate()
-    const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+    const [toyToEdit, setToyToEdit] = useState()
     const { toyId } = useParams()
 
     const isOnline = useOnlineStatus()

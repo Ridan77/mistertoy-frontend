@@ -4,59 +4,47 @@ import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 
 
-const BASE_URL = 'car/'
+const BASE_URL = 'toy/'
 
-export const carService = {
+export const toyService = {
     query,
     getById,
     save,
     remove,
-    getEmptyCar,
     getDefaultFilter,
-    getRandomCar
+    
 }
 
 function query(filterBy = {}) {
     return httpService.get(BASE_URL, filterBy)
 }
 
-function getById(carId) {
-    return httpService.get(BASE_URL + carId)
+function getById(toyId) {
+    return httpService.get(BASE_URL + toyId)
 
 }
-function remove(carId) {
-    return httpService.delete(BASE_URL + carId)
+function remove(toyId) {
+    return httpService.delete(BASE_URL + toyId)
 }
 
-function save(car) {
-    if (car._id) {
-        return httpService.put(BASE_URL + car._id, car)
+function save(toy) {
+    if (toy._id) {
+        return httpService.put(BASE_URL + toy._id, toy)
     } else {
-        return httpService.post(BASE_URL, car)
+        return httpService.post(BASE_URL, toy)
     }
 }
 
 
-function getEmptyCar() {
-    return {
-        vendor: '',
-        price: '',
-        speed: '',
-    }
-}
 
-function getRandomCar() {
-    return {
-        vendor: 'Susita-' + (Date.now() % 1000),
-        price: utilService.getRandomIntInclusive(1000, 9000),
-        speed: utilService.getRandomIntInclusive(90, 200),
-    }
-}
+
+
+
+
+
+
 
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: '', minSpeed: '' }
+    return { txt: '', status: 'all', labels: [] }
 }
-
-
-
