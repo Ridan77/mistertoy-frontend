@@ -2,40 +2,67 @@
 
 import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service.js";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const alllabels = [
+  "On wheels",
+  "Box game",
+  "Art",
+  "Baby",
+  "Doll",
+  "Puzzle",
+  "Outdoor",
+  "Battery Powered",
+];
 
 export function ToyFilter({ filterBy, onSetFilter }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy });
   const onSetFilterDebounce = useRef(
     utilService.debounce(onSetFilter, 300)
   ).current;
+  const [label, setLabel] = useState([]);
 
   useEffect(() => {
     onSetFilterDebounce(filterByToEdit);
   }, [filterByToEdit]);
 
-  function handleChange({ target }) {
-    const field = target.name;
-    let value;
-    if (target.multiple) {
-      value = Array.from(target.selectedOptions, (opt) => opt.value);
-    } else {
-      value = target.value;
-    }
-    switch (target.type) {
-      case "number":
-      case "range":
-        value = +value || "";
-        break;
+  function handleChange(event) {
+    const { name, value, type, checked, multiple, selectedOptions } =
+      event.target;
+    let newValue = value;
 
-      case "checkbox":
-        value = target.checked;
-        break;
-
-      default:
-        break;
+    if (multiple && selectedOptions) {
+      newValue = Array.from(selectedOptions, (opt) => opt.value);
     }
 
-    setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }));
+    if (type === "number" || type === "range") newValue = +value || "";
+    if (type === "checkbox") newValue = checked;
+
+    if (name === "labels") {
+      newValue = typeof value === "string" ? value.split(",") : value;
+    }
+
+    setFilterByToEdit((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
   }
 
   return (
@@ -59,24 +86,6 @@ export function ToyFilter({ filterBy, onSetFilter }) {
           <option value="inStock">In Stock</option>
           <option value="notInStock">Not in Stock</option>
         </select>
-
-        <select
-          value={filterByToEdit.labels}
-          id="labels"
-          name="labels"
-          className="label-selector"
-          multiple
-          onChange={handleChange}>
-          <option value="On wheels">On Wheels</option>
-          <option value="Box Game">Box Game</option>
-          <option value="Art">Art</option>
-          <option value="Baby">Baby</option>
-          <option value="Doll">Doll</option>
-          <option value="Puzzle">Puzzle</option>
-          <option value="Outdoor">Outdoor</option>
-          <option value="Battery Powered">Battery Powered</option>
-        </select>
-
         <label htmlFor="sort">Sort:</label>
         <select
           value={filterByToEdit.sort}
@@ -88,6 +97,26 @@ export function ToyFilter({ filterBy, onSetFilter }) {
           <option value="price">Price</option>
           <option value="createdAt">Date Created</option>
         </select>
+        <FormControl sx={{ m: 0, width: 300 }}>
+          <InputLabel id="demo-multiple-checkbox-label">Labels</InputLabel>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            multiple
+            name="labels"
+            value={filterByToEdit.labels}
+            onChange={handleChange} 
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}>
+            {alllabels.map((label) => (
+              <MenuItem key={label} value={label}>
+                <Checkbox checked={filterByToEdit.labels.includes(label)} />
+                <ListItemText primary={label} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </form>
     </section>
   );

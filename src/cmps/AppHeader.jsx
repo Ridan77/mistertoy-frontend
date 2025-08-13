@@ -35,7 +35,7 @@ export function AppHeader() {
     <header className="app-header full main-layout">
       <section className="header-container">
         <div className="h1-container">
-          <h1>Mister Toy</h1>
+          {/* <h1>Mister Toy</h1> */}
           <img src={imgUrl} />
         </div>
 
@@ -43,6 +43,7 @@ export function AppHeader() {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/toy">Toys</NavLink>
+          <NavLink to="/dashboard">Dashboard</NavLink>
           <a onClick={onToggleCart} href="#">
             🛒 CART
           </a>

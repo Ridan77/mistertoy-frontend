@@ -12,8 +12,9 @@ export const toyService = {
     save,
     remove,
     getDefaultFilter,
-    getEmptyToy
-    
+    getEmptyToy,
+    getAllLabels,
+
 }
 
 function query(filterBy = {}) {
@@ -35,11 +36,11 @@ function save(toy) {
         return httpService.post(BASE_URL, toy)
     }
 }
-function getEmptyToy(){
-    const toy={
-        name:'',
-        price:'',
-        onStock:true,
+function getEmptyToy() {
+    const toy = {
+        name: '',
+        price: '',
+        onStock: true,
     }
     return toy
 }
@@ -47,4 +48,10 @@ function getEmptyToy(){
 
 function getDefaultFilter() {
     return { txt: '', status: 'all', labels: [] }
+}
+
+function getAllLabels() {
+    return httpService.get('labels')
+
+
 }

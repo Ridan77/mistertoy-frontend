@@ -12,7 +12,8 @@ export const toyService = {
     remove,
     getEmptyToy,
     getRandomToy,
-    getDefaultFilter
+    getDefaultFilter,
+    getAllLabels,
 }
 _createToys()
 
@@ -33,10 +34,10 @@ function query(filterBy = {}) {
             }
 
             if (filterBy.labels.length > 0) {
-                
+
                 console.log(filterBy.labels);
                 console.log();
-                
+
                 toys = toys.filter(toy => toy.labels.some(label => filterBy.labels.includes(label)))
             }
 
