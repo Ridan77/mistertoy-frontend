@@ -5,6 +5,20 @@ import { saveToy } from "../store/actions/toy.actions.js";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js";
+import { Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { Loader } from "../cmps/Loader.jsx";
 
 export function ToyEdit() {
   const navigate = useNavigate();
@@ -13,10 +27,11 @@ export function ToyEdit() {
 
   const isOnline = useOnlineStatus();
   const setHasUnsavedChanges = useConfirmTabClose();
+  const labels = toyService.getToyLabels();
 
   useEffect(() => {
-    if (toyId) loadToy()
-        else setToyToEdit(toyService.getEmptyToy());
+    if (toyId) loadToy();
+    else setToyToEdit(toyService.getEmptyToy());
   }, []);
 
   function loadToy() {
@@ -28,18 +43,28 @@ export function ToyEdit() {
         navigate("/toy");
       });
   }
+console.log(toyToEdit);
 
-  function handleChange({ target }) {
-    let { value, type, name: field } = target;
-    value = type === "number" ? +value : value;
-    setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }));
+  const formSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required")
+      .min(2, "Too Short!")
+      .max(50, "Too Long!"),
+    price: Yup.number()
+      .required("Price is required")
+      .min(1, "Price must be at least 1"),
+    inStock: Yup.boolean(),
+    labels: Yup.array().of(Yup.string()),
+  });
+
+  function customHandleChange(ev, handleChange) {
+    handleChange(ev);
     setHasUnsavedChanges(true);
   }
 
-  function onSaveToy(ev) {
-    ev.preventDefault();
-    if (!toyToEdit.price) toyToEdit.price = 1000;
-    saveToy(toyToEdit)
+  function onSaveToy(toyToSave, { resetForm }) {
+    console.log(toyToSave);
+    saveToy(toyToSave)
       .then(() => {
         showSuccessMsg("Toy Saved!");
         navigate("/toy");
@@ -47,53 +72,95 @@ export function ToyEdit() {
       .catch((err) => {
         console.log("Had issues in toy details", err);
         showErrorMsg("Had issues in toy details");
-      });
+      })
+      .finally(() => resetForm());
   }
-  if (!toyToEdit) return <div>Wait</div>;
+
+  if (!toyToEdit) return <Loader/>;
   return (
     <>
       <div></div>
       <section className="toy-edit">
         <h2>{toyToEdit._id ? "Edit" : "Add"} Toy</h2>
+        <Formik
+          enableReinitialize
+          initialValues={toyToEdit}
+          validationSchema={formSchema}
+          onSubmit={onSaveToy}>
+          {({ errors, touched, values, handleChange, setFieldValue }) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="Name"
+                variant="outlined"
+                name="name"
+                required
+                autoComplete="off"
+                margin="normal"
+                error={touched.name && !!errors.name}
+                helperText={touched.name && errors.name}
+                onChange={(e) => customHandleChange(e, handleChange)}
+                value={values.name}
+              />
 
-        <form onSubmit={onSaveToy}>
-          <div className="edit-input-container">
-            <label htmlFor="name">Name : </label>
+              <Field
+                as={TextField}
+                label="Price"
+                variant="outlined"
+                type="number"
+                name="price"
+                required
+                margin="normal"
+                inputProps={{ min: 1 }}
+                error={touched.price && !!errors.price}
+                helperText={touched.price && errors.price}
+                onChange={(e) => customHandleChange(e, handleChange)}
+                value={values.price}
+              />
 
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Enter name..."
-              value={toyToEdit.name}
-              onChange={handleChange}
-            />
-            <label htmlFor="price">Price : </label>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              placeholder="Enter price"
-              value={toyToEdit.price}
-              onChange={handleChange}
-            />
-            <label htmlFor="onStock">On Stock : </label>
-            <input
-              type="checkbox"
-              checked={toyToEdit.onStock}
-              name="onStock"
-              id="onStock"
-              value={toyToEdit.onStock}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="edit-btn-container">
-            <button>{toyToEdit._id ? "Save" : "Add"}</button>
-            <button>
-              <Link to="/toy">Cancel</Link>
-            </button>
-          </div>
-        </form>
+              <FormControl
+                margin="normal"
+                style={{ minWidth: "20vw" }}
+                variant="outlined">
+                <InputLabel id="labels-label">Labels</InputLabel>
+                <Select
+                  labelId="labels-label"
+                  id="labels"
+                  multiple
+                  name="labels"
+                  value={values.labels}
+                  onChange={(ev) => customHandleChange(ev, handleChange)}
+                  renderValue={(selected) => selected.join(", ")}
+                  label="Labels">
+                  {labels.map((label) => (
+                    <MenuItem key={label} value={label}>
+                      <Checkbox checked={values.labels.includes(label)} />
+                      <ListItemText primary={label} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControlLabel
+                label="In stock"
+                control={
+                  <Checkbox
+                    name="inStock"
+                    checked={values.inStock}
+                    onChange={(e) => customHandleChange(e, handleChange)}
+                  />
+                }
+              />
+              <Button variant="contained" color="primary" type="submit">
+                {toyToEdit._id ? "Save" : "Add"}
+              </Button>
+            </Form>
+          )}
+        </Formik>
+        <Button variant="contained" color="primary" >
+          <Link to="/toy">Back to Store</Link>
+        </Button>
+
         <section>
           <h5>{isOnline ? "✅ Online" : "❌ Disconnected"}</h5>
         </section>

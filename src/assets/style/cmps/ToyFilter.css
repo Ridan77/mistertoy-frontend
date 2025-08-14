@@ -1,6 +1,7 @@
 .toy-filter {
     background-color: var(--clr2bg);
     padding: 1em;
+    max-width: 700px;
 }
 
 .toy-filter form{

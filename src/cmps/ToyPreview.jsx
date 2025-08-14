@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { ToyImg } from "./ToyImg";
 
 export function ToyPreview({ toy }) {
   return (
     <article>
       <h4>{toy.name}</h4>
-      <img src={toy.imgUrl} alt="" />
+      {toy.imgUrl ? <img src={toy.imgUrl} alt="" /> : <ToyImg/>}
       <p>
         Price: <span>${toy.price}</span>
       </p>

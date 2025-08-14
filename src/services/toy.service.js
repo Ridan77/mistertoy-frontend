@@ -5,7 +5,16 @@ import { httpService } from './http.service.js'
 
 
 const BASE_URL = 'toy/'
-
+const LABELS = [
+    'On wheels',
+    'Box game',
+    'Art',
+    'Baby',
+    'Doll',
+    'Puzzle',
+    'Outdoor',
+    'Battery Powered',
+]
 export const toyService = {
     query,
     getById,
@@ -13,7 +22,7 @@ export const toyService = {
     remove,
     getDefaultFilter,
     getEmptyToy,
-    getAllLabels,
+    getToyLabels,
 
 }
 
@@ -40,18 +49,18 @@ function getEmptyToy() {
     const toy = {
         name: '',
         price: '',
-        onStock: true,
+        inStock: true,
+        labels:[]
     }
     return toy
 }
 
 
 function getDefaultFilter() {
-    return { txt: '', status: 'all', labels: [] }
+    return { txt: '', status: 'all', labels:[]  }
 }
 
-function getAllLabels() {
-    return httpService.get('labels')
-
+function getToyLabels() {
+    return LABELS
 
 }

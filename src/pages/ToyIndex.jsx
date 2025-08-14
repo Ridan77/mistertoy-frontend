@@ -8,16 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
 import { ToyList } from "../cmps/ToyList.jsx";
-import { toyService } from "../services/toy.service.js";
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 import {
   loadToys,
-  removeToy,
   removeToyOptimistic,
   saveToy,
   setFilterBy,
 } from "../store/actions/toy.actions.js";
 import { ADD_TOY_TO_CART } from "../store/reducers/toy.reducer.js";
+import { Loader } from "../cmps/Loader.jsx";
 
 export function ToysIndex() {
   const dispatch = useDispatch();
@@ -45,7 +44,6 @@ export function ToysIndex() {
       });
   }
 
-
   function onEditToy(toy) {
     const price = +prompt("New price?");
     const toyToSave = { ...toy, price };
@@ -72,16 +70,16 @@ export function ToysIndex() {
           <Link to="/toy/edit">Add Toy</Link>
         </button>
         <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-        {!isLoading ? (
+        {isLoading && <Loader />}
+        {!isLoading && (
           <ToyList
             toys={toys}
             onRemoveToy={onRemoveToy}
             onEditToy={onEditToy}
             addToCart={addToCart}
           />
-        ) : (
-          <div>Loading...</div>
         )}
+
         <hr />
       </main>
     </div>
