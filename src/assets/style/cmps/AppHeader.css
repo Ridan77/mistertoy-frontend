@@ -5,9 +5,12 @@
 }
 
 .app-nav {
+    margin: 30px 0;
     display: flex;
     gap: 15px;
     justify-content: space-around;
+    /* background-color: green; */
+    font-size: 1.3em;
 }
 
 

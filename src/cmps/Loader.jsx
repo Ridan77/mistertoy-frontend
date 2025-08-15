@@ -1,3 +1,4 @@
+import 'animate.css'
 export function Loader({ text = 'Loading, please wait...' }) {
     return (
         <section className="loader-container">

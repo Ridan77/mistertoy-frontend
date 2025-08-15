@@ -57,7 +57,7 @@ function getEmptyToy() {
 
 
 function getDefaultFilter() {
-    return { txt: '', status: 'all', labels:[]  }
+    return { txt: '', status: '', labels:[],sort:''  }
 }
 
 function getToyLabels() {

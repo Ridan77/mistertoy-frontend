@@ -50,7 +50,7 @@ function MapController() {
   useEffect(() => {
     if (map && selectedBranch) {
       map.panTo(selectedBranch.position);
-      map.setZoom(11);
+      map.setZoom(14);
     }
   }, [map, selectedBranch]);
 

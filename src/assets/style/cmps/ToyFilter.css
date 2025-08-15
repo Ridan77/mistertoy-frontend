@@ -1,28 +1,28 @@
 .toy-filter {
-    background-color: var(--clr2bg);
-    padding: 1em;
-    max-width: 700px;
+  background-color: var(--clr2bg);
+  padding: 1em;
+  margin: 0.5em;
 }
 
-.toy-filter form{
-    display:grid;
-    grid-template-columns:  30px 1fr 1fr;
-    gap :20px;
-
-    justify-content: space-evenly;
-    align-items: center;
+.toy-filter form {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.toy-filter form > *:not(.MuiFormControl-root):not(:first-child):not(:nth-child(4)) {
-height: 30px;
-padding: 16.5px 32px;
-}
-
-.label-selector{
-    transition: 0.3s;
-
+.toy-filter
+  form
+  > *:not(.MuiFormControl-root):not(:first-child):not(:nth-child(4)) {
+  height: 30px;
+  padding: 16.5px 32px;
 }
 
-.label-selector:focus , .label-selector:hover {
-height: 120px;
+.label-selector {
+  transition: 0.3s;
 }
 
+.label-selector:focus,
+.label-selector:hover {
+  height: 120px;
+}

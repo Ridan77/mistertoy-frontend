@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
+import { TextField } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,6 +45,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
   }, [filterByToEdit]);
 
   function handleChange(event) {
+    console.log(event.target.name);
     const { name, value, type, checked, multiple, selectedOptions } =
       event.target;
     let newValue = value;
@@ -64,48 +66,57 @@ export function ToyFilter({ filterBy, onSetFilter }) {
       [name]: newValue,
     }));
   }
+  console.log(filterByToEdit);
 
   return (
     <section className="toy-filter full main-layout">
       <form>
-        <label htmlFor="name">Filter:</label>
-        <input
-          type="txt"
-          id="name"
+        <TextField sx={{ m: 0, width: 150 }}
           name="txt"
-          placeholder="By toy's name"
+          onChange={handleChange}
           value={filterByToEdit.txt}
-          onChange={handleChange}
+          id="outlined-basic"
+          label="Filter by name"
+          variant="outlined"
         />
-
-        <select
-          value={filterByToEdit.status}
-          name="status"
-          onChange={handleChange}>
-          <option value="all">All</option>
-          <option value="inStock">In Stock</option>
-          <option value="notInStock">Not in Stock</option>
-        </select>
-        <label htmlFor="sort">Sort:</label>
-        <select
-          value={filterByToEdit.sort}
-          name="sort"
-          onChange={handleChange}
-          id="sort">
-          <option value="">Sort By</option>
-          <option value="name">Name</option>
-          <option value="price">Price</option>
-          <option value="createdAt">Date Created</option>
-        </select>
-        <FormControl sx={{ m: 0, width: 300 }}>
-          <InputLabel id="demo-multiple-checkbox-label">Labels</InputLabel>
+        <FormControl sx={{ m: 0, width: 150 }}>
+          <InputLabel id="status">Status</InputLabel>
           <Select
-            labelId="demo-multiple-checkbox-label"
+            labelId="status"
+            id="status"
+            value={filterByToEdit.status}
+            label="Status"
+            onChange={handleChange}
+            name="status">
+            <MenuItem value={"all"}>All</MenuItem>
+            <MenuItem value={"inStock"}>In Stock</MenuItem>
+            <MenuItem value={"notInStock"}>Not in Stock</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl  sx={{ m: 0, width: 150 }}>
+          <InputLabel id="sort">Sort</InputLabel>
+          <Select
+            labelId="sort"
+            id="sort"
+            value={filterByToEdit.sort}
+            label="sort"
+            onChange={handleChange}
+            name="sort">
+            <MenuItem value={"name"}>Name</MenuItem>
+            <MenuItem value={"price"}>Price</MenuItem>
+            <MenuItem value={"createdAt"}>Date Created</MenuItem>
+          </Select>
+        </FormControl>
+    
+        <FormControl sx={{ m: 0, width: 150 }}>
+          <InputLabel id="labels">Labels</InputLabel>
+          <Select
+            labelId="labels"
             id="demo-multiple-checkbox"
             multiple
             name="labels"
             value={filterByToEdit.labels}
-            onChange={handleChange} 
+            onChange={handleChange}
             input={<OutlinedInput label="Tag" />}
             renderValue={(selected) => selected.join(", ")}
             MenuProps={MenuProps}>
