@@ -30,7 +30,6 @@ export function Dashboard() {
 
   useEffect(() => {
     toyService.getDashboardData().then((data) => setData(data));
-    console.log(data);
     
   }, []);
 
@@ -49,6 +48,8 @@ export function Dashboard() {
     },
   };
   if (!data) return <div><Loader /></div>
+  console.log(data);
+  
   const data1 = {
     labels:data.labels,
     datasets: [
