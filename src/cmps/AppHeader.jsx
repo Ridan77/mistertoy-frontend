@@ -6,7 +6,7 @@ import { logout } from "../store/actions/user.actions.js";
 import { TOGGLE_CART_IS_SHOWN } from "../store/reducers/toy.reducer.js";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import imgUrl from "../assets/img/logo1.png";
+import imgUrl from "../assets/img/logo4.jpg";
 
 // const { NavLink } = ReactRouterDOM
 // const { useSelector, useDispatch } = ReactRedux
@@ -35,8 +35,8 @@ export function AppHeader() {
     <header className="app-header full main-layout">
       <section className="header-container">
         <div className="h1-container">
-          {/* <h1>Mister Toy</h1> */}
-          <img src={imgUrl} />
+          <h1>Mister Toy</h1>
+          {/* <img src={imgUrl} /> */}
         </div>
 
         <nav className="app-nav">

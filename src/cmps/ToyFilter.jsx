@@ -66,7 +66,6 @@ export function ToyFilter({ filterBy, onSetFilter }) {
       [name]: newValue,
     }));
   }
-  console.log(filterByToEdit);
 
   return (
     <section className="toy-filter full main-layout">

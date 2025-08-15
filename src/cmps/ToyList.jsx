@@ -1,5 +1,10 @@
 import { ToyPreview } from "./ToyPreview.jsx";
 import { Link } from "react-router-dom";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from '@mui/icons-material/Info';
+
+
 
 export function ToyList({ toys, onRemoveToy, onEditToy, addToCart }) {
   return (
@@ -9,14 +14,18 @@ export function ToyList({ toys, onRemoveToy, onEditToy, addToCart }) {
           <ToyPreview toy={toy} />
 
           <div>
-            <button onClick={() => onRemoveToy(toy._id)}>x</button>
+            <button onClick={() => onRemoveToy(toy._id)}>
+              <DeleteOutlineIcon />
+            </button>
             {/* <button onClick={() => onEditToy(toy)}>Edit</button> */}
-          <button>
-            <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
-          </button>
-          <button>
-            <Link to={`/toy/${toy._id}`}>Details</Link>
-          </button>
+            <button>
+              <Link to={`/toy/edit/${toy._id}`}>
+              <EditIcon/>
+              </Link>
+            </button>
+            <button>
+              <Link to={`/toy/${toy._id}`}><InfoIcon/></Link>
+            </button>
           </div>
           {/* <button className="buy" onClick={() => addToCart(toy)}>
                         Add to Cart
