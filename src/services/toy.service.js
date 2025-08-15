@@ -22,7 +22,8 @@ export const toyService = {
     remove,
     getDefaultFilter,
     getEmptyToy,
-    getToyLabels,
+    getDashboardData
+
 
 }
 
@@ -50,17 +51,19 @@ function getEmptyToy() {
         name: '',
         price: '',
         inStock: true,
-        labels:[]
+        labels: []
     }
     return toy
 }
 
 
 function getDefaultFilter() {
-    return { txt: '', status: '', labels:[],sort:''  }
+    return { txt: '', status: '', labels: [], sort: '' }
 }
 
-function getToyLabels() {
-    return LABELS
+function getDashboardData() {
+    httpService.get('dashboard').then(data=>console.log(data))
+    return httpService.get('dashboard')
+
 
 }
