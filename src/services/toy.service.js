@@ -23,7 +23,6 @@ export const toyService = {
     getDefaultFilter,
     getEmptyToy,
     getDashboardData,
-    getLabels
 
 
 }
@@ -66,8 +65,4 @@ function getDashboardData() {
     return httpService.get('dashboard')
 
 
-}
-
-function getLabels(){
-    return LABELS
 }

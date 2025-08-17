@@ -45,9 +45,15 @@ export function ToyDetails() {
       <h2>Toy name : {toy.name}</h2>
       <h5>Price: ${toy.price}</h5>
       Labels: <pre> {JSON.stringify(toy.labels)}</pre>
-      <p className={toy.inStock ? "in-stock" : "not-instock"}></p>
-      {toy.imgUrl ? <img src={`/${toy.imgUrl}`} alt="" /> : <ToyImg toyName={toy.name}/>}
-      {toy.inStock ? "In Stock" : "Not In Stock"}
+      <p className={toy.inStock ? "in-stock" : "not-instock"}>
+        {" "}
+        {toy.inStock ? "In Stock" : "Not In Stock"}
+      </p>
+      {toy.imgUrl ? (
+        <img src={`/${toy.imgUrl}`} alt="" />
+      ) : (
+        <ToyImg toyName={toy.name} />
+      )}
       <Modal isOpen={isOpen} onClose={onToggleModal}>
         <Chat />
       </Modal>

@@ -25,15 +25,19 @@ import { Loader } from "../cmps/Loader.jsx";
 export function ToyEdit() {
   const navigate = useNavigate();
   const [toyToEdit, setToyToEdit] = useState();
+  const [allLabels, setAllLabels] = useState(null);
 
   const { toyId } = useParams();
-  const labels=toyService.getLabels()
   const isOnline = useOnlineStatus();
   const setHasUnsavedChanges = useConfirmTabClose();
 
   useEffect(() => {
-    if (toyId) loadToy();
-    else setToyToEdit(toyService.getEmptyToy());
+    toyService.getDashboardData().then(({labels})=>{
+      setAllLabels(labels)
+      if (toyId) loadToy()
+      else setToyToEdit(toyService.getEmptyToy());
+      console.log(allLabels);
+    })
   }, []);
 
   function loadToy() {
@@ -77,7 +81,7 @@ export function ToyEdit() {
       .finally(() => resetForm());
   }
 
-  if (!toyToEdit) return <Loader/>;
+  if (!toyToEdit || !allLabels) return <Loader/>;
   return (
     <>
       <div></div>
@@ -133,7 +137,7 @@ export function ToyEdit() {
                   onChange={(ev) => customHandleChange(ev, handleChange)}
                   renderValue={(selected) => selected.join(", ")}
                   label="Labels">
-                  {labels.map((label) => (
+                  {allLabels.map(label => (
                     <MenuItem key={label} value={label}>
                       <Checkbox checked={values.labels.includes(label)} />
                       <ListItemText primary={label} />
