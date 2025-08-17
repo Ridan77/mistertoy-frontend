@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import imgUrl from "../assets/img/send.png";
+import SendIcon from '@mui/icons-material/Send';
 
 export function Chat() {
   //   function handleChange({ target }) {
@@ -51,7 +51,9 @@ export function Chat() {
             onChange={(ev) => setLineToEdit(ev.target.value)}
           />
           <button>
-            <img src={imgUrl} />
+            
+<SendIcon></SendIcon>
+
           </button>
         </div>
       </form>

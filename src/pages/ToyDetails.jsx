@@ -3,6 +3,7 @@ import { toyService } from "../services/toy.service.js";
 import { Link, useParams } from "react-router-dom";
 import { Modal } from "../cmps/Modal.jsx";
 import { Chat } from "../cmps/Chat.jsx";
+import { ToyImg } from "../cmps/ToyImg.jsx";
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
 
@@ -45,8 +46,8 @@ export function ToyDetails() {
       <h5>Price: ${toy.price}</h5>
       Labels: <pre> {JSON.stringify(toy.labels)}</pre>
       <p className={toy.inStock ? "in-stock" : "not-instock"}></p>
+      {toy.imgUrl ? <img src={`/${toy.imgUrl}`} alt="" /> : <ToyImg toyName={toy.name}/>}
       {toy.inStock ? "In Stock" : "Not In Stock"}
-      <img src={`../${toy.imgUrl}`} alt="" />
       <Modal isOpen={isOpen} onClose={onToggleModal}>
         <Chat />
       </Modal>

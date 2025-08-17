@@ -1,12 +1,18 @@
 .toy-details{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
     padding: 20px;
+    width: max-content;
+    margin: auto;
 
 }
 
 .toy-details img{
+  display: block;
     height: 40vh;
     aspect-ratio: 1;
-    margin: 20px 10px;
+    margin: 20px;
     /* border: none; */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

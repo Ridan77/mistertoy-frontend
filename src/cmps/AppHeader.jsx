@@ -36,7 +36,7 @@ export function AppHeader() {
       <section className="header-container">
         <div className="h1-container">
           <h1>Mister Toy</h1>
-          <img src={imgUrl} />
+          {/* <img src={imgUrl} /> */}
         </div>
 
         <nav className="app-nav">
@@ -58,7 +58,7 @@ export function AppHeader() {
         </section>
       ) : (
         <section>
-          <LoginSignup />
+          {/* <LoginSignup /> */}
         </section>
       )}
       <UserMsg />
