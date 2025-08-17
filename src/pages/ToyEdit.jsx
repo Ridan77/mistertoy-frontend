@@ -36,7 +36,6 @@ export function ToyEdit() {
       setAllLabels(labels)
       if (toyId) loadToy()
       else setToyToEdit(toyService.getEmptyToy());
-      console.log(allLabels);
     })
   }, []);
 

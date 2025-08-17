@@ -7,14 +7,48 @@ import { TOGGLE_CART_IS_SHOWN } from "../store/reducers/toy.reducer.js";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import imgUrl from "../assets/img/logo9.png";
-
-// const { NavLink } = ReactRouterDOM
-// const { useSelector, useDispatch } = ReactRedux
+import { useTranslation, Trans } from "react-i18next";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { border, fontSize } from "@mui/system";
+import { green } from "@mui/material/colors";
 
 export function AppHeader() {
   const dispatch = useDispatch();
   const user = useSelector((storeState) => storeState.userModule.loggedInUser);
-  // console.log('user:', user)
+  const { t, i18n } = useTranslation();
+
+  const lngs = {
+    en: { nativeName: "English" },
+    he: { nativeName: "Hebrew" },
+  };
+
+  const ITEM_HEIGHT = 24;
+  const ITEM_PADDING_TOP = 8;
+
+  const inputProps = {
+    sx: {
+      fontSize: "0.8em",
+      color: "#c3eddf",
+      padding: "8px 12px",
+      border: "none",
+      outline: "none",
+    },
+  };
+
+  const MenuProps = {
+    inputProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 50,
+        fontSize: "30px",
+        color: "green",
+        // backgroundColor: "#e3e5e4ff",
+      },
+    },
+  };
 
   function onLogout() {
     logout()
@@ -31,22 +65,46 @@ export function AppHeader() {
     dispatch({ type: TOGGLE_CART_IS_SHOWN });
   }
 
+  function handlelanguageChange(ev) {
+    console.log("ev.target", ev.target);
+    i18n.changeLanguage(ev.target.value);
+  }
+
   return (
     <header className="app-header full main-layout">
       <section className="header-container">
         <div className="h1-container">
-          <h1>Mister Toy</h1>
+          <h1>{t("mister_toy")}</h1>
           <img src={imgUrl} />
         </div>
 
         <nav className="app-nav">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/toy">Toys</NavLink>
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink to="/">{t("home")}</NavLink>
+          <NavLink to="/about">{t("about")}</NavLink>
+          <NavLink to="/toy">{t("toys")}</NavLink>
+          <NavLink to="/dashboard">{t("dashboard")}</NavLink>
           <a onClick={onToggleCart} href="#">
-            🛒 CART
+            {t("cart")}
           </a>
+
+          <FormControl variant="standard">
+            <Select
+              labelId="language"
+              id="language"
+              value={i18n.resolvedLanguage}
+              label="lng"
+              inputProps={inputProps}
+              onChange={handlelanguageChange}>
+              {Object.keys(lngs).map((lng) => (
+                <MenuItem
+                  key={lng}
+                  value={lng}
+                  disabled={i18n.resolvedLanguage === lng}>
+                  {lng}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </nav>
       </section>
       {user ? (

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service.js";
+import { toyService } from "../services/toy.service.js";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,31 +19,27 @@ const MenuProps = {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
+      backgroundColor: "#0fbd3a",
     },
   },
 };
 
-const alllabels = [
-  "On wheels",
-  "Box game",
-  "Art",
-  "Baby",
-  "Doll",
-  "Puzzle",
-  "Outdoor",
-  "Battery Powered",
-];
-
 export function ToyFilter({ filterBy, onSetFilter }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy });
+  const [gLabels, setgLabels] = useState(null);
   const onSetFilterDebounce = useRef(
     utilService.debounce(onSetFilter, 300)
   ).current;
-  const [label, setLabel] = useState([]);
 
   useEffect(() => {
     onSetFilterDebounce(filterByToEdit);
   }, [filterByToEdit]);
+
+  useEffect(() => {
+    toyService.getDashboardData().then(({ labels }) => {
+      setgLabels(labels);
+    });
+  }, []);
 
   function handleChange(event) {
     console.log(event.target.name);
@@ -66,23 +63,26 @@ export function ToyFilter({ filterBy, onSetFilter }) {
       [name]: newValue,
     }));
   }
-
+console.log('filterBytoEdit', filterByToEdit);
   return (
     <section className="toy-filter full main-layout">
       <form>
-        <TextField sx={{ m: 0, width: 150 }}
+        <TextField
+          sx={{ m: 0, width: 150 }}
           name="txt"
           onChange={handleChange}
           value={filterByToEdit.txt}
           id="outlined-basic"
           label="Filter by name"
           variant="outlined"
+          autoComplete="off"
         />
         <FormControl sx={{ m: 0, width: 150 }}>
           <InputLabel id="status">Status</InputLabel>
           <Select
             labelId="status"
             id="status"
+            MenuProps={MenuProps}
             value={filterByToEdit.status}
             label="Status"
             onChange={handleChange}
@@ -92,41 +92,45 @@ export function ToyFilter({ filterBy, onSetFilter }) {
             <MenuItem value={"notInStock"}>Not in Stock</MenuItem>
           </Select>
         </FormControl>
-        <FormControl  sx={{ m: 0, width: 150 }}>
+        <FormControl sx={{ m: 0, width: 150 }}>
           <InputLabel id="sort">Sort</InputLabel>
           <Select
             labelId="sort"
             id="sort"
             value={filterByToEdit.sort}
             label="sort"
+            MenuProps={MenuProps}
             onChange={handleChange}
             name="sort">
+            <MenuItem value={""}>--</MenuItem>
             <MenuItem value={"name"}>Name</MenuItem>
             <MenuItem value={"price"}>Price</MenuItem>
             <MenuItem value={"createdAt"}>Date Created</MenuItem>
           </Select>
         </FormControl>
-    
-        <FormControl sx={{ m: 0, width: 150 }}>
-          <InputLabel id="labels">Labels</InputLabel>
-          <Select
-            labelId="labels"
-            id="demo-multiple-checkbox"
-            multiple
-            name="labels"
-            value={filterByToEdit.labels}
-            onChange={handleChange}
-            input={<OutlinedInput label="Tag" />}
-            renderValue={(selected) => selected.join(", ")}
-            MenuProps={MenuProps}>
-            {alllabels.map((label) => (
-              <MenuItem key={label} value={label}>
-                <Checkbox checked={filterByToEdit.labels.includes(label)} />
-                <ListItemText primary={label} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+
+        {gLabels && (
+          <FormControl sx={{ m: 0, width: 150 }}>
+            <InputLabel id="labels">Labels</InputLabel>
+            <Select
+              labelId="labels"
+              id="demo-multiple-checkbox"
+              multiple
+              name="labels"
+              value={filterByToEdit.labels}
+              onChange={handleChange}
+              input={<OutlinedInput label="Tag" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}>
+              {gLabels.map((label) => (
+                <MenuItem key={label} value={label}>
+                  <Checkbox checked={filterByToEdit.labels.includes(label)} />
+                  <ListItemText primary={label} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </form>
     </section>
   );

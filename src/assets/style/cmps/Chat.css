@@ -6,7 +6,7 @@
 }
 
 .chat-container .line-input {
-  background-color: transparent;
+  /* background-color: transparent; */
   height: 30px;
   padding: 5px;
   font-size: 1rem;
@@ -16,6 +16,21 @@
   width: 80%;
 }
 
+.aline-input {
+  background-color: white;
+  width: 80%;
+  
+  border-radius: 2em;
+  outline: none;
+}
+
+.aline-input input:focus {
+  border-radius: 2em;
+  background-color: white;
+}
+
+
+
 .input-send {
   display: flex;
   justify-content: space-between;
@@ -24,13 +39,10 @@
 
 .input-send button {
   width: 50px;
-  height: 35px;
+  height: 56px;
   background-color: var(--user);
   border-radius: 10px;
-
 }
-
-
 
 .chat-container .line {
   border-bottom: 1px var(--gray3) solid;
@@ -54,6 +66,5 @@
   align-self: start;
   border-radius: 10px;
   padding: 5px;
-    padding-right: 20px;
-
+  padding-right: 20px;
 }

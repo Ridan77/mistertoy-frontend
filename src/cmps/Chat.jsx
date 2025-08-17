@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
+import { TextField } from "@mui/material";
 
 export function Chat() {
   //   function handleChange({ target }) {
@@ -40,7 +41,18 @@ export function Chat() {
           setLineToEdit("");
         }}>
         <div className="input-send">
-          <input
+          <TextField
+            className="aline-input"
+            sx={{ m: 0 }}
+            name="txt"
+            onChange={(ev) => setLineToEdit(ev.target.value)}
+            value={lineToEdit}
+            id="filled-basic"
+            variant="filled"
+            label="Your answer..."
+            autoComplete="off"
+          />
+          {/* <input
             autoFocus
             autoComplete="off"
             className="line-input"
@@ -49,11 +61,9 @@ export function Chat() {
             value={lineToEdit}
             placeholder="Your answer... "
             onChange={(ev) => setLineToEdit(ev.target.value)}
-          />
+          /> */}
           <button>
-            
-<SendIcon></SendIcon>
-
+            <SendIcon></SendIcon>
           </button>
         </div>
       </form>
