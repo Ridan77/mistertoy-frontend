@@ -10,12 +10,12 @@ export function ToyImg({ toyName }) {
     return (
         <div className="img-container">
             {isImgLoading && <div className="skeleton-loader"></div>}
-            <img
+            <img 
                 src={`https://robohash.org/${toyName}?set=set1`}
                 alt={toyName}
                 title={toyName}
                 onLoad={handleImageLoad}
-                className={isImgLoading ? '' : 'loaded'}
+                className={isImgLoading ? 'edit-img' : 'loaded edit-img'}
             />
         </div>
     )

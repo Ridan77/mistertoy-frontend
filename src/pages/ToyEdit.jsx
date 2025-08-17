@@ -6,6 +6,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js";
 import { Field, Form, Formik } from "formik";
+import { ToyImg } from "../cmps/ToyImg.jsx";
+
 import * as Yup from "yup";
 import {
   Button,
@@ -23,11 +25,11 @@ import { Loader } from "../cmps/Loader.jsx";
 export function ToyEdit() {
   const navigate = useNavigate();
   const [toyToEdit, setToyToEdit] = useState();
-  const { toyId } = useParams();
 
+  const { toyId } = useParams();
+  const labels=toyService.getLabels()
   const isOnline = useOnlineStatus();
   const setHasUnsavedChanges = useConfirmTabClose();
-  const labels = toyService.getToyLabels();
 
   useEffect(() => {
     if (toyId) loadToy();
@@ -43,7 +45,6 @@ export function ToyEdit() {
         navigate("/toy");
       });
   }
-console.log(toyToEdit);
 
   const formSchema = Yup.object().shape({
     name: Yup.string()
@@ -75,6 +76,7 @@ console.log(toyToEdit);
       })
       .finally(() => resetForm());
   }
+console.log(toyToEdit);
 
   if (!toyToEdit) return <Loader/>;
   return (
@@ -157,6 +159,10 @@ console.log(toyToEdit);
             </Form>
           )}
         </Formik>
+             {toyId && 
+             (toyToEdit.imgUrl ? <img className="edit-img" src={`/${toyToEdit.imgUrl}`} />
+              : <ToyImg toyName={toyToEdit.name}/>)}
+        
         <Button variant="contained" color="primary" >
           <Link to="/toy">Back to Store</Link>
         </Button>
