@@ -4,8 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import { Modal } from "../cmps/Modal.jsx";
 import { Chat } from "../cmps/Chat.jsx";
 import { ToyImg } from "../cmps/ToyImg.jsx";
-// const { useEffect, useState } = React
-// const { Link, useParams } = ReactRouterDOM
+import EditIcon from '@mui/icons-material/Edit';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export function ToyDetails() {
   const [toy, setToy] = useState(null);
@@ -58,12 +59,12 @@ export function ToyDetails() {
         <Chat />
       </Modal>
       <div className="btn-details">
-        <button onClick={onToggleModal}>Chat</button>
+        <button onClick={onToggleModal}><ChatIcon/></button>
         <button>
-          <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
+          <Link to={`/toy/edit/${toy._id}`}><EditIcon/></Link> 
         </button>
         <button>
-          <Link to={`/toy`}>Back</Link>
+          <Link to={`/toy`}><KeyboardBackspaceIcon/></Link>
         </button>
       </div>
     </section>
