@@ -76,7 +76,6 @@ export function ToyEdit() {
       })
       .finally(() => resetForm());
   }
-console.log(toyToEdit);
 
   if (!toyToEdit) return <Loader/>;
   return (

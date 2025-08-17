@@ -24,7 +24,7 @@ export function Chat() {
         ...prevLines,
         { text: "Sure thing, honey", sender: "bot" },
       ]);
-    }, 5000);
+    }, 3000);
   }
 
   return (

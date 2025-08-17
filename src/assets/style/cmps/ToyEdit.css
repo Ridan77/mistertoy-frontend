@@ -24,7 +24,7 @@ display: flex;
 justify-content: space-around;
 }
 
-.edit-img{
+.toy-edit .edit-img{
     display: block;
     margin: 20px auto;
     height: 300px;

@@ -10,7 +10,7 @@
 }
 
 .toy-preview img {
-  max-width: 200px;
+
   max-height: 200px;
 }
 
@@ -19,7 +19,6 @@
 }
 .in-stock {
   color: green;
-  font-size: 1.2em;
 }
 .label-title {
   font-size: 0.8em;

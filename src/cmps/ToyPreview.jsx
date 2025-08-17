@@ -4,7 +4,7 @@ import { ToyImg } from "./ToyImg";
 
 export function ToyPreview({ toy }) {
   return (
-    <article>
+    <article className="preview-item">
       <h4>{toy.name}</h4>
       {toy.imgUrl ? <img src={toy.imgUrl} alt="" /> : <ToyImg toyName={toy.name}/>}
       <p>
