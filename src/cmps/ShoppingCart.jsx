@@ -4,7 +4,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service-local.js'
-import { checkout } from '../store/actions/user.actions.js'
 import { REMOVE_TOY_FROM_CART } from '../store/reducers/toy.reducer.js'
 
 export function ShoppingCart({ isCartShown }) {
@@ -25,13 +24,8 @@ export function ShoppingCart({ isCartShown }) {
     function onCheckout() {
         const amount = getCartTotal()
         // DONE: checkout function that dispatch
-        checkout(amount)
-            .then(()=>{
-                showSuccessMsg(`Charged you: $ ${amount.toLocaleString()}`)
-            })
-            .catch(()=>{
-                showErrorMsg('There was a problem checking out!')
-            })
+        console.log('Check Out');
+        
     }
 
     if (!isCartShown) return <span></span>

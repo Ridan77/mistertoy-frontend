@@ -50,14 +50,14 @@ export function AppHeader() {
     },
   };
 
-  function onLogout() {
-    logout()
-      .then(() => {
-        showSuccessMsg("logout successfully");
-      })
-      .catch((err) => {
-        showErrorMsg("OOPs try again");
-      });
+  async function onLogout() {
+    try {
+      await logout();
+      showSuccessMsg("logout successfully");
+    } catch (error) {
+      console.log(error);
+      showErrorMsg("OOPs try again");
+    }
   }
 
   function onToggleCart(ev) {

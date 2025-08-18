@@ -11,48 +11,41 @@ export const userService = {
     signup,
     getById,
     getLoggedinUser,
-    updateScore,
     getEmptyCredentials
 }
 
 
 
-function login({ username, password }) {
-
-    return httpService.post(BASE_URL + 'login', { username, password })
-        .then(user => {
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid login')
-        })
+async function login({ username, password }) {
+    try {
+        const user = await httpService.post(BASE_URL + 'login', { username, password })
+        if (user) return _setLoggedinUser(user)
+    } catch (error) {
+        throw ('Invalid login')
+        console.log(error);
+    }
 }
 
-function signup({ username, password, fullname }) {
-    const user = { username, password, fullname, score: 10000 }
-    return httpService.post(BASE_URL + 'signup', user)
-        .then(user => {
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid signup')
-        })
-}
-
-
-function logout() {
-    return httpService.post(BASE_URL + 'logout')
-        .then(() => {
-            sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
-        })
+async function signup({ username, password, fullname }) {
+    const user = { username, password, fullname, }
+    try {
+        const user = await httpService.post(BASE_URL + 'signup', user)
+        if (user) return _setLoggedinUser(user)
+    } catch (error) {
+        console.log(error);
+        throw ('Invalid signup')
+    }
 }
 
 
-function updateScore(diff) {
-    if (getLoggedinUser().score + diff < 0) return Promise.reject('No credit')
-    return httpService.put('user/', { diff })
-        .then(user => {
-            _setLoggedinUser(user)
-            return user.score
-        })
+async function logout() {
+    try {
+        await httpService.post(BASE_URL + 'logout')
+        sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
+    } catch (error) {
+        console.log(error);
+    }
 }
-
 
 
 function getById(userId) {

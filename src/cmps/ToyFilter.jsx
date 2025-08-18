@@ -35,10 +35,16 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     onSetFilterDebounce(filterByToEdit);
   }, [filterByToEdit]);
 
-  useEffect(() => {
-    toyService.getDashboardData().then(({ labels }) => {
-      setgLabels(labels);
-    });
+  useEffect( () => {
+    try {
+      getLabels()
+      async function getLabels() {
+        const data = await toyService.getDashboardData();
+        setgLabels(data.labels);
+      }
+    } catch (err) {
+      console.log("Big Problem: ", err);
+    }
   }, []);
 
   function handleChange(event) {
@@ -63,7 +69,6 @@ export function ToyFilter({ filterBy, onSetFilter }) {
       [name]: newValue,
     }));
   }
-console.log('filterBytoEdit', filterByToEdit);
   return (
     <section className="toy-filter full main-layout">
       <form>

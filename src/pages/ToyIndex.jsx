@@ -25,36 +25,41 @@ export function ToysIndex() {
   const isLoading = useSelector((storeState) => storeState.toyModule.isLoading);
 
   useEffect(() => {
-    loadToys().catch((err) => {
+    try {
+      loadToysOnUseEffect();
+      async function loadToysOnUseEffect() {
+        loadToys();
+      }
+    } catch (error) {
+      console.log(error);
       showErrorMsg("Cannot load toys!");
-    });
+    }
   }, [filterBy]);
 
   function onSetFilter(filterBy) {
     setFilterBy(filterBy);
   }
 
-  function onRemoveToy(toyId) {
-    removeToyOptimistic(toyId)
-      .then(() => {
-        showSuccessMsg("Toy removed");
-      })
-      .catch((err) => {
-        showErrorMsg("Cannot remove toy");
-      });
+  async function onRemoveToy(toyId) {
+    try {
+      await removeToyOptimistic(toyId);
+      showSuccessMsg("Toy removed");
+    } catch (error) {
+      showErrorMsg("Cannot remove toy");
+      console.log(error);
+    }
   }
 
-  function onEditToy(toy) {
+  async function onEditToy(toy) {
     const price = +prompt("New price?");
     const toyToSave = { ...toy, price };
-
-    saveToy(toyToSave)
-      .then((savedToy) => {
-        showSuccessMsg(`Toy updated to price: $${savedToy.price}`);
-      })
-      .catch((err) => {
-        showErrorMsg("Cannot update toy");
-      });
+    try {
+      const savedToy = await saveToy(toyToSave);
+      showSuccessMsg(`Toy updated to price: $${savedToy.price}`);
+    } catch (error) {
+      console.log(error);
+      showErrorMsg("Cannot update toy");
+    }
   }
 
   function addToCart(toy) {

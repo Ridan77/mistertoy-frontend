@@ -32,21 +32,27 @@ export function ToyEdit() {
   const setHasUnsavedChanges = useConfirmTabClose();
 
   useEffect(() => {
-    toyService.getDashboardData().then(({labels})=>{
-      setAllLabels(labels)
-      if (toyId) loadToy()
-      else setToyToEdit(toyService.getEmptyToy());
-    })
+    try {
+      getLabels();
+      async function getLabels() {
+        const data = await toyService.getDashboardData();
+        setAllLabels(data.labels);
+        if (toyId) loadToy();
+        else setToyToEdit(toyService.getEmptyToy());
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
-  function loadToy() {
-    toyService
-      .getById(toyId)
-      .then((toy) => setToyToEdit(toy))
-      .catch((err) => {
-        console.log("Had issues in toy edit", err);
-        navigate("/toy");
-      });
+  async function loadToy() {
+    try {
+      const toy = await toyService.getById(toyId);
+      setToyToEdit(toy);
+    } catch (error) {
+      console.log("Had issues in toy edit", err);
+      navigate("/toy");
+    }
   }
 
   const formSchema = Yup.object().shape({
@@ -66,21 +72,21 @@ export function ToyEdit() {
     setHasUnsavedChanges(true);
   }
 
-  function onSaveToy(toyToSave, { resetForm }) {
-    console.log(toyToSave);
-    saveToy(toyToSave)
-      .then(() => {
-        showSuccessMsg("Toy Saved!");
-        navigate("/toy");
-      })
-      .catch((err) => {
-        console.log("Had issues in toy details", err);
-        showErrorMsg("Had issues in toy details");
-      })
-      .finally(() => resetForm());
+  async function onSaveToy(toyToSave, { resetForm }) {
+    try {
+      saveToy(toyToSave);
+      showSuccessMsg("Toy Saved!");
+      navigate("/toy");
+    } catch (error) {
+      console.log("Had issues in toy details", err);
+      showErrorMsg("Had issues in toy details");
+      console.log(error);
+    } finally {
+      () => resetForm();
+    }
   }
 
-  if (!toyToEdit || !allLabels) return <Loader/>;
+  if (!toyToEdit) return <Loader />;
   return (
     <>
       <div></div>
@@ -122,7 +128,7 @@ export function ToyEdit() {
                 value={values.price}
               />
 
-              <FormControl
+              {allLabels && <FormControl
                 margin="normal"
                 style={{ minWidth: "20vw" }}
                 variant="outlined">
@@ -136,14 +142,14 @@ export function ToyEdit() {
                   onChange={(ev) => customHandleChange(ev, handleChange)}
                   renderValue={(selected) => selected.join(", ")}
                   label="Labels">
-                  {allLabels.map(label => (
+                  {allLabels.map((label) => (
                     <MenuItem key={label} value={label}>
                       <Checkbox checked={values.labels.includes(label)} />
                       <ListItemText primary={label} />
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
+              </FormControl>}
 
               <FormControlLabel
                 label="In stock"
@@ -161,11 +167,14 @@ export function ToyEdit() {
             </Form>
           )}
         </Formik>
-             {toyId && 
-             (toyToEdit.imgUrl ? <img className="edit-img" src={`/${toyToEdit.imgUrl}`} />
-              : <ToyImg toyName={toyToEdit.name}/>)}
-        
-        <Button variant="contained" color="primary" >
+        {toyId &&
+          (toyToEdit.imgUrl ? (
+            <img className="edit-img" src={`/${toyToEdit.imgUrl}`} />
+          ) : (
+            <ToyImg toyName={toyToEdit.name} />
+          ))}
+
+        <Button variant="contained" color="primary">
           <Link to="/toy">Back to Store</Link>
         </Button>
 

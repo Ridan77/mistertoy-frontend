@@ -9,7 +9,6 @@ export const userService = {
     signup,
     getById,
     getLoggedinUser,
-    updateScore,
     getEmptyCredentials
 }
 

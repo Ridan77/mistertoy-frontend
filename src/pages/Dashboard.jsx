@@ -21,19 +21,21 @@ ChartJS.register(
   Legend
 );
 
-
-
 export function Dashboard() {
-
   // const [data,setData]=useState({labels:[],pricePerLabel:[],onStockPerLabel:[]})
-  const [data,setData]=useState(null)
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    toyService.getDashboardData().then((data) => setData(data));
-    
+    try {
+      getData()
+      async function getData() {
+        const data = await toyService.getDashboardData();
+        setData(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
-
-
 
   const options = {
     responsive: true,
@@ -47,10 +49,15 @@ export function Dashboard() {
       },
     },
   };
-  if (!data) return <div><Loader /></div>
-  
+  if (!data)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+
   const data1 = {
-    labels:data.labels,
+    labels: data.labels,
     datasets: [
       {
         label: "Price per Label",
@@ -60,19 +67,23 @@ export function Dashboard() {
     ],
   };
   const data2 = {
-    labels:data.labels,
+    labels: data.labels,
     datasets: [
       {
         label: "On Stock per Label",
         data: data.onStockPerLabel,
         backgroundColor: "rgba(255, 99, 132, 0.5)",
+        width:150,
       },
     ],
   };
   return (
     <div>
-      <Bar options={options} data={data1} />;
-      <Bar options={options} data={data2} />;
+      <Bar  sx={{ m: 0, width: 150 }} options={options} data={data1} />;
+      <Bar  sx={{
+        width: "500px",
+        margin: "0 auto", // center it
+      }} options={options} data={data2} />;
     </div>
   );
 }
