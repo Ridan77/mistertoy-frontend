@@ -27,9 +27,11 @@ async function login({ username, password }) {
 }
 
 async function signup({ username, password, fullname }) {
-    const user = { username, password, fullname, }
+    const userToSignup = { username, password, fullname, }
     try {
-        const user = await httpService.post(BASE_URL + 'signup', user)
+        console.log(userToSignup);
+        
+        const user = await httpService.post(BASE_URL + 'signup', userToSignup)
         if (user) return _setLoggedinUser(user)
     } catch (error) {
         console.log(error);
