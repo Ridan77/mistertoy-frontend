@@ -23,6 +23,7 @@ export const toyService = {
     getDefaultFilter,
     getEmptyToy,
     getDashboardData,
+    saveMsg
 
 
 }
@@ -62,7 +63,9 @@ function getDefaultFilter() {
 }
 
 function getDashboardData() {
-    return httpService.get('dashboard')
+    return httpService.get(BASE_URL +'dashboard')
+}
 
-
+function saveMsg(toyId, msg) {
+    return httpService.post(BASE_URL + toyId + '/msg', {msg})
 }

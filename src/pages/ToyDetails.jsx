@@ -7,6 +7,7 @@ import { ToyImg } from "../cmps/ToyImg.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ChatIcon from "@mui/icons-material/Chat";
+import RateReviewIcon from "@mui/icons-material/RateReview";
 
 export function ToyDetails() {
   const [toy, setToy] = useState(null);
@@ -26,14 +27,18 @@ export function ToyDetails() {
     setIsOpen((isOpen) => !isOpen);
   }
 
+  function getMsg(toyId) {
+    const msg = prompt("What is your message?");
+    toyService.saveMsg(toyId,msg)
+  }
+
   function handleIsOpen({ key }) {
     if (key === "Escape") setIsOpen(false);
   }
 
   async function loadToy() {
-    toyService;
     try {
-      const toy = await getById(toyId);
+      const toy = await toyService.getById(toyId);
       setToy(toy);
     } catch (error) {
       console.error(error);
@@ -61,18 +66,21 @@ export function ToyDetails() {
         <Chat />
       </Modal>
       <div className="btn-details">
-        <button onClick={onToggleModal}>
-          <ChatIcon />
+        <button>
+          <Link to={`/toy`}>
+            <KeyboardBackspaceIcon />
+          </Link>
         </button>
         <button>
           <Link to={`/toy/edit/${toy._id}`}>
             <EditIcon />
           </Link>
         </button>
-        <button>
-          <Link to={`/toy`}>
-            <KeyboardBackspaceIcon />
-          </Link>
+        <button onClick={onToggleModal}>
+          <ChatIcon />
+        </button>
+        <button onClick={() => getMsg(toy._id)} className="msg-btn">
+          <RateReviewIcon />
         </button>
       </div>
     </section>
