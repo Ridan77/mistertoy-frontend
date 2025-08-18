@@ -45,7 +45,6 @@ export async function saveToy(toy) {
     const type = toy._id ? UPDATE_TOY : ADD_TOY
     try {
         const savedToy = await toyService.save(toy)
-        console.log('savedToy:', savedToy, type)
         store.dispatch({ type, toy: savedToy })
         return savedToy
     } catch (error) {

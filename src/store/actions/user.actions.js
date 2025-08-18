@@ -4,10 +4,8 @@ import { SET_USER, SET_USER_SCORE } from "../reducers/user.reducer.js"
 import { store } from "../store.js"
 
 export async function login(credentials) {
-    console.log('credentials:', credentials)
     try {
         const user = await userService.login(credentials)
-        console.log('user login:', user)
         store.dispatch({ type: SET_USER, user })
     } catch (error) {
         console.log('user actions -> Cannot login', err)
