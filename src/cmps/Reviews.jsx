@@ -17,12 +17,12 @@ export function Reviews({ toyId,refreshTrigger }) {
 
   return (
     <>
-      <p>Reviews:</p>;
+      <p>Reviews:</p>
       <ul>
         {reviews.map((review) => {
           return (
             <li key={review._id}>
-              Review: {review.txt}, by: {review.userId}
+              Review: {review.txt}, by: {review.byUser.fullname}
             </li>
           );
         })}
@@ -30,3 +30,4 @@ export function Reviews({ toyId,refreshTrigger }) {
     </>
   );
 }
+
