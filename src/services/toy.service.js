@@ -23,9 +23,7 @@ export const toyService = {
     getDefaultFilter,
     getEmptyToy,
     getDashboardData,
-    saveMsg
-
-
+    saveMsg,
 }
 
 function query(filterBy = {}) {
@@ -63,9 +61,10 @@ function getDefaultFilter() {
 }
 
 function getDashboardData() {
-    return httpService.get(BASE_URL +'dashboard')
+    return httpService.get(BASE_URL + 'dashboard')
 }
 
 function saveMsg(toyId, msg) {
-    return httpService.post(BASE_URL + toyId + '/msg', {msg})
+    return httpService.post(BASE_URL + toyId + '/msg', { msg })
 }
+

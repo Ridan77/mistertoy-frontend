@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { toyService } from "../services/toy.service.js";
+import { reviewService } from "../services/review.service.js";
 import { Link, useParams } from "react-router-dom";
 import { Modal } from "../cmps/Modal.jsx";
 import { Chat } from "../cmps/Chat.jsx";
+import { Reviews } from "../cmps/Reviews.jsx";
 import { ToyImg } from "../cmps/ToyImg.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -12,6 +14,8 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 export function ToyDetails() {
   const [toy, setToy] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [refreshReviews, setRefreshReviews] = useState(false);
+
 
   const { toyId } = useParams();
 
@@ -27,9 +31,12 @@ export function ToyDetails() {
     setIsOpen((isOpen) => !isOpen);
   }
 
-  function getMsg(toyId) {
-    const msg = prompt("What is your message?");
-    toyService.saveMsg(toyId,msg)
+  async function getReview(toyId) {
+    const review = prompt("What is your review?");
+    await reviewService.addReview(toyId,review)
+    setRefreshReviews(prev => !prev)
+
+
   }
 
   function handleIsOpen({ key }) {
@@ -62,6 +69,7 @@ export function ToyDetails() {
       ) : (
         <ToyImg toyName={toy.name} />
       )}
+      <Reviews toyId={toy._id} refreshTrigger={refreshReviews} />
       <Modal isOpen={isOpen} onClose={onToggleModal}>
         <Chat />
       </Modal>
@@ -79,7 +87,7 @@ export function ToyDetails() {
         <button onClick={onToggleModal}>
           <ChatIcon />
         </button>
-        <button onClick={() => getMsg(toy._id)} className="msg-btn">
+        <button onClick={() => getReview(toy._id)} className="review-btn">
           <RateReviewIcon />
         </button>
       </div>
