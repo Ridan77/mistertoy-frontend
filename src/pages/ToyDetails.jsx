@@ -35,8 +35,6 @@ export function ToyDetails() {
     const review = prompt("What is your review?");
     await reviewService.addReview(toyId,review)
     setRefreshReviews(prev => !prev)
-
-
   }
 
   function handleIsOpen({ key }) {

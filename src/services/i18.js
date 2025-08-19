@@ -18,6 +18,7 @@ i18n.use(initReactI18next)
                     disconnected: 'Disconnected',
                     cart: 'Cart',
                     i18: 'internationalization',
+                    user: 'My user'
                 },
             },
             he: {
@@ -31,6 +32,8 @@ i18n.use(initReactI18next)
                     disconnected: 'אוף ליין',
                     cart: 'עגלת קניות',
                     i18: 'לוקליזציה',
+                    user: 'המשתמש שלי'
+
                 },
             },
         },

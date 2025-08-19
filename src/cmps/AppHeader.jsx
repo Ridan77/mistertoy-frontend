@@ -83,9 +83,10 @@ export function AppHeader() {
           <NavLink to="/about">{t("about")}</NavLink>
           <NavLink to="/toy">{t("toys")}</NavLink>
           <NavLink to="/dashboard">{t("dashboard")}</NavLink>
-          <a onClick={onToggleCart} href="#">
+          <NavLink to="/user">{t("user")}</NavLink>
+          {/* <a onClick={onToggleCart} href="#">
             {t("cart")}
-          </a>
+          </a> */}
 
           <FormControl variant="standard">
             <Select

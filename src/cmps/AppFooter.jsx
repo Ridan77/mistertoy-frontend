@@ -20,7 +20,7 @@ export function AppFooter() {
     <footer className="app-footer">
       <h5>Currently {toysLength} toys in the shop</h5>
 
-      <h5>
+      {/* <h5>
         <span>{shoppingCartLength}</span> Products in your Cart
         <a
           href="#"
@@ -31,7 +31,7 @@ export function AppFooter() {
           ({isCartShown ? "hide" : "show"})
         </a>
       </h5>
-      <ShoppingCart isCartShown={isCartShown} />
+      <ShoppingCart isCartShown={isCartShown} /> */}
       <UserMsg />
     </footer>
   );
