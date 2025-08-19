@@ -1,0 +1,21 @@
+.user-page{
+    font-family: Roboto;
+    width: 70%;;
+    margin: 40px auto;
+    padding: 20px;
+    font-size: 1.2em;
+
+    pre{
+        font-size: 0.8em;
+        border-bottom: 1px solid;
+    }
+    li{
+        list-style: none;
+        /* background-color: green; */
+        margin-left: 0px;
+    }
+    ul{
+        margin: 0px;
+        padding: 0;
+    }
+}

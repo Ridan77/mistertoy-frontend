@@ -84,6 +84,7 @@ export function AppHeader() {
           <NavLink to="/toy">{t("toys")}</NavLink>
           <NavLink to="/dashboard">{t("dashboard")}</NavLink>
           <NavLink to="/user">{t("user")}</NavLink>
+          <NavLink to="/reviews">{t("reviews")}</NavLink>
           {/* <a onClick={onToggleCart} href="#">
             {t("cart")}
           </a> */}

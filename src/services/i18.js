@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 // import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
+import { Reviews } from '../cmps/Reviews'
 
 i18n.use(initReactI18next)
     .init({
@@ -18,7 +19,8 @@ i18n.use(initReactI18next)
                     disconnected: 'Disconnected',
                     cart: 'Cart',
                     i18: 'internationalization',
-                    user: 'My user'
+                    user: 'My user',
+                    reviews: 'Reviews'
                 },
             },
             he: {
@@ -32,7 +34,9 @@ i18n.use(initReactI18next)
                     disconnected: 'אוף ליין',
                     cart: 'עגלת קניות',
                     i18: 'לוקליזציה',
-                    user: 'המשתמש שלי'
+                    user: 'המשתמש שלי',
+                    reviews: 'ביקורות'
+
 
                 },
             },
