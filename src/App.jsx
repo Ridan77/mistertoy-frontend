@@ -16,7 +16,7 @@ import { UserDetails } from './pages/UserDetails.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { User } from './pages/User.jsx'
 import './services/i18.js'
-import { Reviews } from './cmps/Reviews.jsx'
+import { ExploreReviews } from './pages/ExploreReviews.jsx'
 
 
 
@@ -38,7 +38,7 @@ export default function App() {
                             <Route element={<Dashboard />} path="/dashboard" />
                             <Route element={<User />} path="/user" />
                             {/* <Route element={<UserDetails />} path="/user/:userId" /> */}
-                            <Route element={<Reviews />} path="reviews" />
+                            <Route element={<ExploreReviews />} path="reviews" />
                         </Routes>
                     </main>
                     <AppFooter />

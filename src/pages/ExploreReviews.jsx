@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { reviewService } from "../services/review.service.js";
 import { Loader } from "../cmps/Loader.jsx";
 
-export function Reviews() {
+export function ExploreReviews() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,8 @@ export function Reviews() {
             {reviews.map((review) => {
               return (
                 <li key={review._id}>
-                  
+                  {JSON.stringify(review)}
+                  <hr />
                 </li>
               );
             })}
