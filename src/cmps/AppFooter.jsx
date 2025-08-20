@@ -18,7 +18,7 @@ export function AppFooter() {
 
   return (
     <footer className="app-footer">
-      <h5>Currently {toysLength} toys in the shop</h5>
+      <h5>Currently showing {toysLength} toys </h5>
 
       {/* <h5>
         <span>{shoppingCartLength}</span> Products in your Cart
