@@ -1,0 +1,126 @@
+:root {
+  --bg: #0b0f19;
+  --card: #111826;
+  --text: #e8ecf1;
+  --muted: #a7b0bf;
+  --accent: #3b82f6;
+  --border: rgba(255,255,255,0.08);
+  --row: rgba(255,255,255,0.03);
+  --rowAlt: rgba(255,255,255,0.06);
+  --row: rgba(255, 255, 255, 0.03);
+  --rowAlt: rgba(255, 255, 255, 0.06);
+}
+.reviews-container {
+      background: var(--card);
+
+  border: px solid black;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* base table */
+.review-table {
+  width: 100%;
+    color: var(--text);
+
+  }
+
+/* body cells */
+.review-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid black;
+  vertical-align: top;
+}
+
+/* zebra + hover */
+.review-table tbody tr:nth-child(odd){ background: var(--row); }
+.review-table tbody tr:nth-child(even){ background: var(--rowAlt); }
+.review-table tbody tr:hover{
+  background: rgba(59,130,246,0.12);
+  outline: 1px solid rgba(59,130,246,0.35);
+}
+
+.review-table tr:hover {
+  background: rgba(59, 130, 246, 0.12);
+  outline: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+/* first column (review text) gets more space */
+.review-table .td-review {
+  word-break: break-word;
+}
+
+/* subtle pills for "By" and "On" */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid black;
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pill .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+/* make links inside pills pop */
+.pill a {
+    background-color: green;
+  color: var(--text);
+  text-decoration: none;
+}
+.pill a:hover {
+  color: var(--accent);
+}
+
+/* compact mode option */
+.review-table.compact td,
+.review-table.compact th {
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+/* mobile: stack cells into cards */
+@media (max-width: 640px) {
+  .review-table thead {
+    display: none;
+  }
+  .review-table,
+  .review-table tbody,
+  .review-table tr,
+  .review-table td {
+    display: block;
+    width: 100%;
+  }
+  .review-table tbody tr {
+    margin: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .review-table tbody td {
+    border: 0;
+    padding: 12px 14px;
+  }
+  .review-table td.review {
+    padding-bottom: 6px;
+  }
+  .review-table td.by::before,
+  .review-table td.on::before {
+    content: attr(data-label);
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+}

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { reviewService } from "../services/review.service.js";
 import { Loader } from "../cmps/Loader.jsx";
+import { useNavigate } from "react-router-dom";
 
 export function ExploreReviews() {
   const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchReviews();
@@ -15,22 +17,33 @@ export function ExploreReviews() {
   }
 
   console.log(reviews);
-  if (!reviews) return <Loader/>
+  if (!reviews) return <Loader />;
   return (
     <>
       <section className="review-page">
-    
         <section className="reviews-container">
-          <ul>
+          <table className="review-table">
             {reviews.map((review) => {
               return (
-                <li key={review._id}>
-                  {JSON.stringify(review)}
-                  <hr />
-                </li>
+                <tr key={review._id}>
+                  <td className="td-review">{review.txt}</td>
+                  <td>
+                    <span className="pill">
+                      <span className="label">By:</span>{" "}
+                      {review.byUser.fullname}
+                    </span>
+                  </td>
+                  <td className="review-toy-link">
+                      <a href={`/toy/${review.toy._id}`}>
+                      <span className="pill">
+                      <span className="label">At: </span>{review.toy.name}
+                      </span>
+                      </a>
+                  </td>
+                </tr>
               );
             })}
-          </ul>
+          </table>
         </section>
       </section>
     </>

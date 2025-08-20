@@ -7,6 +7,7 @@ import { useOnlineStatus } from "../hooks/useOnlineStatus.js";
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js";
 import { Field, Form, Formik } from "formik";
 import { ToyImg } from "../cmps/ToyImg.jsx";
+import { onUploadImg } from "../services/cloudinary.service.js";
 
 import * as Yup from "yup";
 import {
@@ -71,9 +72,17 @@ export function ToyEdit() {
     handleChange(ev);
     setHasUnsavedChanges(true);
   }
+  async function onFileChange(ev) {
+    const file = ev.target.files[0];
+    const url = await onUploadImg(ev);
+    console.log(url);
+    
+    setToyToEdit(prevToy=>({...prevToy,imgUrl:url}))
 
+  }
   async function onSaveToy(toyToSave, { resetForm }) {
     try {
+      console.log("toyToSave", toyToSave);
       saveToy(toyToSave);
       showSuccessMsg("Toy Saved!");
       navigate("/toy");
@@ -85,7 +94,7 @@ export function ToyEdit() {
       () => resetForm();
     }
   }
-
+console.log('toyToEdit', toyToEdit);
   if (!toyToEdit) return <Loader />;
   return (
     <>
@@ -128,29 +137,41 @@ export function ToyEdit() {
                 value={values.price}
               />
 
-              {allLabels && <FormControl
-                margin="normal"
-                style={{ minWidth: "20vw" }}
-                variant="outlined">
-                <InputLabel id="labels-label">Labels</InputLabel>
-                <Select
-                  labelId="labels-label"
-                  id="labels"
-                  multiple
-                  name="labels"
-                  value={values.labels}
-                  onChange={(ev) => customHandleChange(ev, handleChange)}
-                  renderValue={(selected) => selected.join(", ")}
-                  label="Labels">
-                  {allLabels.map((label) => (
-                    <MenuItem key={label} value={label}>
-                      <Checkbox checked={values.labels.includes(label)} />
-                      <ListItemText primary={label} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>}
-
+              {allLabels && (
+                <FormControl
+                  margin="normal"
+                  style={{ minWidth: "100px" }}
+                  variant="outlined">
+                  <InputLabel id="labels-label">Labels</InputLabel>
+                  <Select
+                    labelId="labels-label"
+                    id="labels"
+                    multiple
+                    name="labels"
+                    value={values.labels}
+                    onChange={(ev) => customHandleChange(ev, handleChange)}
+                    renderValue={(selected) => selected.join(", ")}
+                    label="Labels">
+                    {allLabels.map((label) => (
+                      <MenuItem key={label} value={label}>
+                        <Checkbox checked={values.labels.includes(label)} />
+                        <ListItemText primary={label} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+              <label className="file-input-label" htmlFor="file">
+                Upload Image
+              </label>
+              <input
+                type="file"
+                id="file"
+                className="file-input"
+                name="file"
+                accept="image/png, image/jpeg image/jpg"
+                onChange={onFileChange}
+              />
               <FormControlLabel
                 label="In stock"
                 control={
@@ -169,7 +190,7 @@ export function ToyEdit() {
         </Formik>
         {toyId &&
           (toyToEdit.imgUrl ? (
-            <img className="edit-img" src={`/${toyToEdit.imgUrl}`} />
+            <img className="edit-img" src={`${toyToEdit.imgUrl}`} />
           ) : (
             <ToyImg toyName={toyToEdit.name} />
           ))}

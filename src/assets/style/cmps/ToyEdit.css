@@ -1,6 +1,6 @@
 .toy-edit{
-
-    width: 50%;
+    width:80%;
+    min-width: 500px;
     margin: auto;
 }
 .toy-edit h2{
@@ -18,7 +18,8 @@
 
 .toy-edit form{
     /* background-color: green; */
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap:20px
 }
 .edit-btn-container{
@@ -31,4 +32,12 @@ justify-content: space-around;
     margin: 20px auto;
     height: 300px;
     
+}
+
+.file-input{
+    display: none;
+}
+
+.file-input-label{
+    place-self: center;
 }
