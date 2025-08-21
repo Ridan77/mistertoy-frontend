@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Loader } from "../cmps/Loader.jsx";
 
 import SendIcon from "@mui/icons-material/Send";
 import { TextField } from "@mui/material";
@@ -8,7 +9,8 @@ import {
   SOCKET_EMIT_SEND_MSG,
   SOCKET_EMIT_SET_TOPIC_AND_ID,
   SOCKET_EVENT_ADD_MSG,
-  USER_TYPING, USER_STOP_TYPING
+  USER_TYPING,
+  USER_STOP_TYPING,
 } from "../services/socket.service.js";
 import { toyService } from "../services/toy.service.js";
 import { useRef } from "react";
@@ -23,8 +25,6 @@ export function Chat({ toyId }) {
     utilService.debounce(onStopTyping, 3000)
   ).current;
 
-
-
   useEffect(() => {
     socketService.on(SOCKET_EVENT_ADD_MSG, (msg) => {
       console.log("GOT from socket", msg);
@@ -34,7 +34,7 @@ export function Chat({ toyId }) {
       console.log("GOT msg typing from socket", msg);
       setWhoIsTyping(msg);
     });
-      socketService.on(USER_STOP_TYPING, (msg) => {
+    socketService.on(USER_STOP_TYPING, (msg) => {
       console.log("GOT msg typing from socket", msg);
       setWhoIsTyping(null);
     });
@@ -46,6 +46,7 @@ export function Chat({ toyId }) {
     return () => {
       socketService.off(SOCKET_EVENT_ADD_MSG);
       socketService.off(USER_TYPING);
+      socketService.off(USER_STOP_TYPING);
     };
   }, []);
 
@@ -53,14 +54,15 @@ export function Chat({ toyId }) {
 
   async function loadToy(toyId) {
     const toy = await toyService.getById(toyId);
-    setChat(toy.chat);
+    if (!toy.chat) {
+      setChat([]);
+    } else setChat(toy.chat);
   }
-  
+
   function onStopTyping() {
     console.log("Stop typing");
     socketService.emit(USER_STOP_TYPING, {});
-    setWhoIsTyping(null)
-
+    setWhoIsTyping(null);
   }
   function handleChange(ev) {
     socketService.emit(USER_TYPING, { sender: user.fullname });
@@ -73,6 +75,12 @@ export function Chat({ toyId }) {
     socketService.emit(SOCKET_EMIT_SEND_MSG, msg);
     setLineToEdit("");
   }
+  if (!chat)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   return (
     <div className="chat-container">
       <p>
