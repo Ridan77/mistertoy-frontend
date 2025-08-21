@@ -13,8 +13,6 @@ export function Reviews({ toyId,refreshTrigger }) {
     setReviews(allReviews);
   }
 
-  console.log(reviews);
-
   return (
     <>
       <p>Reviews:</p>

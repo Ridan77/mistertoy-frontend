@@ -1,44 +1,55 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import SendIcon from "@mui/icons-material/Send";
 import { TextField } from "@mui/material";
+import {
+  socketService,
+  SOCKET_EMIT_SEND_MSG,
+  SOCKET_EMIT_SET_TOPIC,
+  SOCKET_EVENT_ADD_MSG,
+} from "../services/socket.service.js";
+import { toyService } from "../services/toy.service.js";
 
-export function Chat() {
-  //   function handleChange({ target }) {
-  //     const value = target.value;
-  //     setLineToEdit(value);
-  //   }
-  const [chatLines, setChatLines] = useState([
-    { text: "hello", sender: "bot" },
-    { text: "Nice to chat with you", sender: "bot" },
-    { text: "How can I help?", sender: "bot" },
-  ]);
+export function Chat({ toyId }) {
+  const user = useSelector((storeState) => storeState.userModule.loggedInUser);
+  const [chat, setChat] = useState([]);
+  useEffect(() => {
+    socketService.on(SOCKET_EVENT_ADD_MSG, (msg) => {
+      console.log("GOT from socket", msg);
+      setChat((prevChat) => [...prevChat, msg]);
+    });
+    socketService.emit(SOCKET_EMIT_SET_TOPIC, toyId);
+    loadToy(toyId);
+    return () => {
+      socketService.off(SOCKET_EMIT_SET_TOPIC);
+    };
+  }, []);
+
   const [lineToEdit, setLineToEdit] = useState("");
 
+  async function loadToy(toyId) {
+    const toy = await toyService.getById(toyId);
+    setChat(toy.chat)
+  }
   function handleSubmit(ev) {
     ev.preventDefault();
-    setChatLines((prevLines) => [
-      ...prevLines,
-      { text: ev.target.txt.value, sender: "user" },
-    ]);
-    setTimeout(() => {
-      setChatLines((prevLines) => [
-        ...prevLines,
-        { text: "Sure thing, honey", sender: "bot" },
-      ]);
-    }, 3000);
+    const msg = { text: ev.target.txt.value, sender: user.fullname };
+    socketService.emit(SOCKET_EMIT_SEND_MSG, msg);
+    setLineToEdit("");
   }
-
   return (
     <div className="chat-container">
-      {chatLines.map((line, idx) => (
-        <div key={idx} className={`line ${line.sender}`}>
-          {line.text}
+      {chat.map((msg, idx) => (
+        <div
+          key={idx}
+          className={`msg ${msg.sender === user.fullname ? "user" : "bot"}`}>
+          {`${msg.sender}: ${msg.text}`}
         </div>
       ))}
       <form
         onSubmit={(ev) => {
           handleSubmit(ev);
-          setLineToEdit("");
         }}>
         <div className="input-send">
           <TextField

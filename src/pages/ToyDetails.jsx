@@ -44,6 +44,7 @@ export function ToyDetails() {
   async function loadToy() {
     try {
       const toy = await toyService.getById(toyId);
+      console.log('toy', toy);
       setToy(toy);
     } catch (error) {
       console.error(error);
@@ -68,8 +69,8 @@ export function ToyDetails() {
         <ToyImg toyName={toy.name} />
       )}
       <Reviews toyId={toy._id} refreshTrigger={refreshReviews} />
-      <Modal isOpen={isOpen} onClose={onToggleModal}>
-        <Chat />
+      <Modal header={`Chat about ${toy.name} toy`} footer="" isOpen={isOpen} onClose={onToggleModal}>
+        <Chat toyId={toy._id}/>
       </Modal>
       <div className="btn-details">
         <button>

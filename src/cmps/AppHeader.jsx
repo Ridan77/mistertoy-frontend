@@ -1,6 +1,5 @@
 import { UserMsg } from "./UserMsg.jsx";
 import { LoginSignup } from "./LoginSignup.jsx";
-import { userService } from "../services/user.service-local.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { logout } from "../store/actions/user.actions.js";
 import { TOGGLE_CART_IS_SHOWN } from "../store/reducers/toy.reducer.js";
@@ -12,8 +11,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { border, fontSize } from "@mui/system";
-import { green } from "@mui/material/colors";
 
 export function AppHeader() {
   const dispatch = useDispatch();
