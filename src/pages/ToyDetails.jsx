@@ -44,7 +44,6 @@ export function ToyDetails() {
   async function loadToy() {
     try {
       const toy = await toyService.getById(toyId);
-      console.log('toy', toy);
       setToy(toy);
     } catch (error) {
       console.error(error);
